@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <body>
         <header th:fragment="ShopHeader">
-          <span class="title">IStore</span>
+            <a style="text-decoration: none; color: inherit;"  th:href="@{/}"><span class="title">IStore</span></a>
 
-          <a href="" class="basket-ico">
+          <a th:href="@{/order/busket}" class="basket-ico">
                 <div class="basket">
 
                       <span th:text="${@busket.counter}"></span>
