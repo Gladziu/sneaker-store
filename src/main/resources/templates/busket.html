@@ -1,11 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Cart</title>
+    <title>IStore</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
+<header th:replace="fragments/header :: ShopHeader"></header>
 
+<div class="main-content">
+
+    <div style="background-color: grey; width: 100%; display: flex; flex-direction: column; align-items: center;">
+
+        <table style="text-align: center;">
+            <tr>
+                <th style="width: 30px;">No.</th>
+                <th style="width: 90px;"></th>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th style="width: 30px;"></th>
+            </tr>
+            <tr style="background-color: white;" th:each="busketItem : ${@busket.busketItem}">
+                <td>1</td>
+                <td>
+                    <img style="width: 95%; height: auto;" th:src="@{${busketItem.item.urlImage}}">
+                </td>
+                <td th:text="${busketItem.item.name}"></td>
+                <td style="display: flex; padding-top: 10px; align-items: center; flex-wrap: wrap; justify-content: space-around;">
+                    <a class="mbtn" style="text-decoration: none;" th:href="@{'/order/decrease/' + ${busketItem.item.id}}">-</a>
+                    <p style="text-align: center;" th:text="${busketItem.counter}"></p>
+                    <a class="mbtn" style="text-decoration: none;" th:href="@{'/order/increase/' + ${busketItem.item.id}}">+</a>
+                </td>
+                <td th:text="${busketItem.price}">$</td>
+                <td>
+                    <a style="text-decoration: none;" class="mbtn" th:href="@{'/order/remove/' + ${busketItem.item.id}}">X</a>
+                </td>
+            </tr>
+        </table>
+
+        <div class="summary">
+            <p><span>Summary: </span><span th:text="${@busket.sum}"></span>$</p>
+        </div>
+        <a th:href="@{/order/summary}" class="add-btn">Next</a>
+    </div>
+</div>
 </body>
 </html>
