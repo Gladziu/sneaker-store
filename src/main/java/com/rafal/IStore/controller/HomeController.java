@@ -1,5 +1,6 @@
 package com.rafal.IStore.controller;
 
+import com.rafal.IStore.ItemOperation;
 import com.rafal.IStore.service.BusketService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class HomeController {
 
     @GetMapping("/add/{itemId}")
     public String addItemToBasket(@PathVariable("itemId") Long itemId, Model model){
-        busketService.addItemToBusket(itemId);
+        busketService.itemOperation(itemId, ItemOperation.INCREASE);
         model.addAttribute("items" ,busketService.getAllItems());
         return "home";
     }
