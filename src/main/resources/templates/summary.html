@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyShop</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <header th:replace="fragments/header :: ShopHeader"></header>
+
+    <div class="main-content">
+        <table style="border: 0px;">
+            <tr style="background-color: white; margin: auto; display: flex; padding: 10px; align-items: center; flex-wrap: wrap; align-items: center; justify-content: space-between; width: 50%; border: 1px solid black;" th:each="busketItem : ${@busket.busketItem}">
+                <td>
+                    <img style="width: 10%; height: auto;" th:src="@{${busketItem.item.urlImage}}">
+                </td>
+                <td th:text="${busketItem.item.name}"></td>
+                <td style="display: flex; padding-top: 10px">
+                    <p th:text="${busketItem.counter}"></p>
+                    <p>qty.</p>
+                </td>
+                <td th:text="${busketItem.price}">
+                    <p>$</p>
+                </td>
+
+
+            </tr>
+        </table>
+
+        <div style="background-color: grey; margin: auto;" class="summary">
+            <p><span>Total cost: </span><span th:text="${@busket.sum}"></span>$</p>
+
+            <form style="background-color: grey;" th:action="@{/order/saveorder}" method="post">
+                <label>Name</label>
+                <input type="text" name="firstName" required>
+                <label>Surname</label>
+                <input type="text" name="lastName" required>
+                <label>Address</label>
+                <input type="text" name="address" required>
+                <label>Post code</label>
+                <input type="text" name="postCode" required>
+                <label>City</label>
+                <input type="text" name="city" required>
+                <button style="margin: auto; display: flex; margin-top: 20px; margin-bottom: 20px; padding: 10px; align-items: center; flex-wrap: wrap; justify-content: space-around; width: 50%" type="submit" class="add-btn">Submit order</button>
+            </form>
+
+        </div>
+    </div>
+
+</body>
+</html>
