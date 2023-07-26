@@ -33,11 +33,18 @@ public class Busket {
             BusketItem bItem = optionalBusketItem.get();
             bItem.decreaseCounter();
             if(bItem.hasZeroItems()){
-                busketItem.removeIf(i -> i.idEquals(item));
+                removeAllItems(item);
+            } else {
+                recalulatePriceAndCounter();
             }
         }
+    }
+
+    public void removeAllItems(Item item) {
+        busketItem.removeIf(i -> i.idEquals(item));
         recalulatePriceAndCounter();
     }
+
 
     private void recalulatePriceAndCounter(){
         sum = busketItem.stream().map(BusketItem::getPrice)
@@ -51,4 +58,11 @@ public class Busket {
                 .filter(i -> i.idEquals(item))
                 .findFirst();
     }
+
+    public void clearBusket(){
+        busketItem.clear();
+        counter = 0;
+        sum = BigDecimal.ZERO;
+    }
+
 }

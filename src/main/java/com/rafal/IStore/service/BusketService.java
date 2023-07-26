@@ -1,6 +1,7 @@
 package com.rafal.IStore.service;
 
 import com.rafal.IStore.Busket;
+import com.rafal.IStore.ItemOperation;
 import com.rafal.IStore.model.Item;
 import com.rafal.IStore.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,20 +26,18 @@ public class BusketService {
         return itemRepository.findAll();
     }
 
-    public void addItemToBusket(Long itemId){
+
+    public void itemOperation(Long itemId, ItemOperation itemOperation) {
         Optional<Item> oItem = itemRepository.findById(itemId);
         if (oItem.isPresent()){
             Item item = oItem.get();
-            busket.addItem(item);
+            switch (itemOperation){
+                case INCREASE -> busket.addItem(item);
+                case DECREASE -> busket.removeItem(item);
+                case REMOVE -> busket.removeAllItems(item);
+                default -> throw new IllegalArgumentException();
+            }
         }
 
-    }
-
-    public void removeItemFromBusket(Long itemId) {
-        Optional<Item> oItem = itemRepository.findById(itemId);
-        if (oItem.isPresent()){
-            Item item = oItem.get();
-            busket.removeItem(item);
-        }
     }
 }
