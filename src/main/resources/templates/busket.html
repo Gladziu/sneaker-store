@@ -32,7 +32,7 @@
                     <p style="text-align: center;" th:text="${busketItem.counter}"></p>
                     <a class="mbtn" style="text-decoration: none;" th:href="@{'/order/increase/' + ${busketItem.item.id}}">+</a>
                 </td>
-                <td th:text="${busketItem.price}">$</td>
+                <td th:text="${busketItem.price}"></td>
                 <td>
                     <a style="text-decoration: none;" class="mbtn" th:href="@{'/order/remove/' + ${busketItem.item.id}}">X</a>
                 </td>
