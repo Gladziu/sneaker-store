@@ -19,7 +19,7 @@ public class HomeController {
         this.busketService = busketService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/home")
     public String home(Model model, HttpSession httpSession){
         model.addAttribute("items" ,busketService.getAllItems());
         return "home";
@@ -30,15 +30,5 @@ public class HomeController {
         busketService.itemOperation(itemId, ItemOperation.INCREASE);
         model.addAttribute("items" ,busketService.getAllItems());
         return "home";
-    }
-
-    @GetMapping("/login")
-    public String login(){
-        return "login";
-    }
-
-    @GetMapping("/register")
-    public String register(){
-        return "register";
     }
 }
