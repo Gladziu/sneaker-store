@@ -56,7 +56,7 @@ public class OrderController {
     @PostMapping("/saveorder")
     public String saveOrder(OrderDto orderDto) {
         orderService.saveOrder(orderDto);
-        return "redirect:/";
+        return "redirect:/home";
     }
 
 

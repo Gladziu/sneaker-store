@@ -34,7 +34,7 @@ public class AdminController {
     @PostMapping
     private String addItem(Item item){
         itemRepository.save(item);
-        return "redirect:/";
+        return "redirect:/home";
     }
 
     @GetMapping("/showorders")
