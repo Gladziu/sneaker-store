@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>IStore</title>
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+<header th:replace="fragments/adminheader :: ShopHeaderAdmin"></header>
+
+<div class="main-content">
+    <div class="item-form">
+        <form class="edit-form" th:action="@{/admin/edit-item}" th:object="${item}" method="post">
+            <input type="hidden" th:field="*{id}" />
+            <div class="form-row">
+                <label for="newPrice">New Price:</label>
+                <input type="text" id="newPrice" th:field="*{price}" />
+            </div>
+            <div class="form-row">
+                <label for="newName">New Name:</label>
+                <input type="text" id="newName" th:field="*{name}" />
+            </div>
+            <div class="form-row">
+                <label for="newImageUrl">New Image URL:</label>
+                <input type="text" id="newImageUrl" th:field="*{urlImage}" />
+            </div>
+            <button class="save-button" type="submit">Save</button>
+        </form>
+    </div>
+    <div class="item-image">
+        <h1 class="item-name" th:text="${item.name}"></h1>
+        <img class="image-preview" th:src="@{${item.urlImage}}">
+    </div>
+    <div>
+        <a th:href="@{'/admin/delete/' + ${item.id}}" class="remove-button">Remove item permanently</a>
+    </div>
+</div>
+</body>
+</html>

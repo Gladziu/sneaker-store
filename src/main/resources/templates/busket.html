@@ -9,9 +9,7 @@
 <header th:replace="fragments/header :: ShopHeader"></header>
 
 <div class="main-content">
-
     <div style="background-color: grey; width: 100%; display: flex; flex-direction: column; align-items: center;">
-
         <table style="text-align: center;">
             <tr>
                 <th style="width: 30px;">No.</th>
@@ -21,6 +19,7 @@
                 <th>Total</th>
                 <th style="width: 30px;"></th>
             </tr>
+
             <tr style="background-color: white;" th:each="busketItem : ${@busket.busketItem}">
                 <td>1</td>
                 <td>
@@ -28,21 +27,20 @@
                 </td>
                 <td th:text="${busketItem.item.name}"></td>
                 <td style="display: flex; padding-top: 10px; align-items: center; flex-wrap: wrap; justify-content: space-around;">
-                    <a class="mbtn" style="text-decoration: none;" th:href="@{'/order/decrease/' + ${busketItem.item.id}}">-</a>
+                    <a style="text-decoration: none;" th:href="@{'/sneaker-store/order/decrease/' + ${busketItem.item.id}}">-</a>
                     <p style="text-align: center;" th:text="${busketItem.counter}"></p>
-                    <a class="mbtn" style="text-decoration: none;" th:href="@{'/order/increase/' + ${busketItem.item.id}}">+</a>
+                    <a style="text-decoration: none;" th:href="@{'/sneaker-store/order/increase/' + ${busketItem.item.id}}">+</a>
                 </td>
                 <td th:text="${busketItem.price}"></td>
                 <td>
-                    <a style="text-decoration: none;" class="mbtn" th:href="@{'/order/remove/' + ${busketItem.item.id}}">X</a>
+                    <a style="text-decoration: none;" class="mbtn" th:href="@{'/sneaker-store/order/remove/' + ${busketItem.item.id}}">X</a>
                 </td>
             </tr>
         </table>
-
-        <div class="summary">
-            <p><span>Summary: </span><span th:text="${@busket.sum}"></span>$</p>
+        <div>
+            <h3><span>Summary: </span><span th:text="${@busket.sum}"></span>$</h3>
         </div>
-        <a th:href="@{/order/summary}" class="add-btn">Next</a>
+        <a th:href="@{/sneaker-store/order/summary}" class="add-btn">Next</a>
     </div>
 </div>
 </body>

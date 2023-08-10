@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <header th:fragment="ShopHeaderAdmin">
+        <div>
+            <a th:href="@{/sneaker-store/home}"><span class="title">Sneaker Store</span></a>
+            <span>~ Admin view</span>
+        </div>
+        <div class="right">
+            <div>
+                <a style="color: #d4242d"  th:href="@{/admin/add-item}">Add Items</a>
+            </div>
+            <div>
+                <a style="color: #d4242d" th:href="@{/admin/users}">Users List</a>
+            </div>
+            <div class="logout">
+                <a th:href="@{/logout}">Logout</a>
+            </div>
+        </div>
+    </header>
+</body>
+</html>
