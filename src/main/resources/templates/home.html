@@ -5,25 +5,20 @@
     <title>IStore</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
-    <body>
-        <header th:replace="fragments/header :: ShopHeader"></header>
+<body>
+<header th:replace="fragments/header :: ShopHeader"></header>
 
-        <div class="main-content">
-            <div class="item" th:each="item : ${items}">
-                <p class="item-name" th:text="${item.name}"></p>
-
-                <img th:src="@{${item.urlImage}}">
-
-                <div>
-                    <span>Price: </span>
-                    <span th:text="${item.price}"> </span>
-                    <span>$</span>
-                </div>
-
-                <a th:href="@{'/add/' + ${item.id}}" class="add-btn">Add to basket</a>
-
-            </div>
-
+<div class="main-content">
+    <div class="item" th:each="item : ${items}">
+        <p class="item-name" th:text="${item.name}"></p>
+        <img th:src="@{${item.urlImage}}">
+        <div>
+            <span>Price: </span>
+            <span th:text="${item.price}"> </span>
+            <span>$</span>
         </div>
-    </body>
+        <a th:href="@{'/sneaker-store/add/' + ${item.id}}" class="add-btn">Add to basket</a>
+    </div>
+</div>
+</body>
 </html>

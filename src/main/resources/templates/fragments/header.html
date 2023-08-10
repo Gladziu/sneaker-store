@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <body>
-        <header th:fragment="ShopHeader">
-            <div> <a th:href="@{/home}"><span class="title">Sneaker Store</span></a></div>
-            <div class="right">
-                <div class="logout">
-                    <a  th:href="@{/logout}">Logout</a>
-                </div>
-                <div>
-                    <span th:text="${@busket.counter}"></span>
-                    <span>qty</span>
-                    <span th:text="${@busket.sum}"></span>
-                    <span>$</span>
-                </div>
-                <div class="busket-ico">
-                    <a th:href="@{/order/busket}" class="busket-ico" ><img src="https://cdn-icons-png.flaticon.com/512/1413/1413908.png"></a>
-                </div>
+<body>
+    <header th:fragment="ShopHeader">
+        <div> <a th:href="@{/sneaker-store/home}"><span class="title">Sneaker Store</span></a></div>
+        <div class="right">
+            <div class="logout">
+                <a  th:href="@{/logout}">Logout</a>
             </div>
-        </header>
-    </body>
+            <div>
+                <span th:text="${@busket.counter}"></span>
+                <span>qty</span>
+                <span th:text="${@busket.sum}"></span>
+                <span>$</span>
+            </div>
+            <div class="busket-ico">
+                <a th:href="@{/sneaker-store/order/busket}" ><img src="https://cdn-icons-png.flaticon.com/512/1413/1413908.png"></a>
+            </div>
+        </div>
+    </header>
+</body>
 </html>
