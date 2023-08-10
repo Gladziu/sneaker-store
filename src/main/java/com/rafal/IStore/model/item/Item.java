@@ -1,4 +1,4 @@
-package com.rafal.IStore.model;
+package com.rafal.IStore.model.item;
 
 import jakarta.persistence.Entity;
 

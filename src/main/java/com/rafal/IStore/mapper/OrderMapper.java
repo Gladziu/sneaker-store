@@ -1,7 +1,7 @@
 package com.rafal.IStore.mapper;
 
-import com.rafal.IStore.Busket;
-import com.rafal.IStore.BusketItem;
+import com.rafal.IStore.service.busket.Busket;
+import com.rafal.IStore.model.busket.BusketItem;
 import com.rafal.IStore.dto.OrderDto;
 import com.rafal.IStore.model.order.Order;
 import com.rafal.IStore.model.order.OrderItem;

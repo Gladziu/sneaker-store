@@ -1,4 +1,4 @@
-package com.rafal.IStore.service;
+package com.rafal.IStore.service.user;
 
 import com.rafal.IStore.model.user.Role;
 import com.rafal.IStore.model.user.User;

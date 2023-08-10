@@ -1,9 +1,9 @@
-package com.rafal.IStore.service;
+package com.rafal.IStore.service.busket;
 
-import com.rafal.IStore.Busket;
-import com.rafal.IStore.ItemOperation;
-import com.rafal.IStore.model.Item;
+import com.rafal.IStore.model.item.ItemOperation;
+import com.rafal.IStore.model.item.Item;
 import com.rafal.IStore.repository.ItemRepository;
+import com.rafal.IStore.service.busket.Busket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +16,12 @@ public class BusketService {
     private final ItemRepository itemRepository;
     private final Busket busket;
 
+
     @Autowired
     public BusketService(ItemRepository itemRepository, Busket busket) {
         this.itemRepository = itemRepository;
         this.busket = busket;
+
     }
 
     public List<Item> getAllItems(){
@@ -40,4 +42,6 @@ public class BusketService {
         }
 
     }
+
+
 }

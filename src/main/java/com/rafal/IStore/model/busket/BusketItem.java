@@ -1,9 +1,8 @@
-package com.rafal.IStore;
+package com.rafal.IStore.model.busket;
 
-import com.rafal.IStore.model.Item;
+import com.rafal.IStore.model.item.Item;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.context.annotation.Scope;
 
 import java.math.BigDecimal;
 
