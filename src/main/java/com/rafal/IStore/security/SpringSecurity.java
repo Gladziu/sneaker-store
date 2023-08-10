@@ -32,13 +32,14 @@ public class SpringSecurity {
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/login").permitAll()
-                                .requestMatchers("/admin").hasRole("ADMIN")
-                                .requestMatchers("/home").hasRole("ADMIN")
+                                .requestMatchers("/css/**").permitAll()
+                                .requestMatchers("/sneaker-store/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/home")
+                                .defaultSuccessUrl("/sneaker-store/home")
                                 .permitAll()
                 ).logout(
                         logout -> logout
