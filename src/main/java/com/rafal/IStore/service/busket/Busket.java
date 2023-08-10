@@ -1,6 +1,7 @@
-package com.rafal.IStore;
+package com.rafal.IStore.service.busket;
 
-import com.rafal.IStore.model.Item;
+import com.rafal.IStore.model.busket.BusketItem;
+import com.rafal.IStore.model.item.Item;
 import lombok.Getter;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
