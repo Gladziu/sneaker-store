@@ -1,14 +1,14 @@
-package com.rafal.IStore.service;
+package com.rafal.IStore.service.user;
 
 import com.rafal.IStore.dto.UserDto;
 import com.rafal.IStore.model.user.Role;
 import com.rafal.IStore.model.user.User;
 import com.rafal.IStore.repository.RoleRepository;
 import com.rafal.IStore.repository.UserRepository;
+import com.rafal.IStore.service.user.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
         // encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        Role role = roleRepository.findByName("ROLE_ADMIN");
+        Role role = roleRepository.findByName("ROLE_USER");
         if(role == null){
             role = checkRoleExist();
         }
@@ -56,6 +56,12 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public boolean roleMatching(String roleName, String email){
+        User user = userRepository.findByEmail(email);
+        return user.getRoles().stream().anyMatch(role -> role.getName().equals(roleName));
+    }
+
     private UserDto mapToUserDto(User user){
         UserDto userDto = new UserDto();
         String[] str = user.getName().split(" ");
@@ -67,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
     private Role checkRoleExist(){
         Role role = new Role();
-        role.setName("ROLE_ADMIN");
+        role.setName("ROLE_USER");
         return roleRepository.save(role);
     }
 }
