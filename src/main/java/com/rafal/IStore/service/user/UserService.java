@@ -1,4 +1,4 @@
-package com.rafal.IStore.service;
+package com.rafal.IStore.service.user;
 
 import com.rafal.IStore.dto.UserDto;
 import com.rafal.IStore.model.user.User;
@@ -11,4 +11,6 @@ public interface UserService {
     User findUserByEmail(String email);
 
     List<UserDto> findAllUsers();
+
+    boolean roleMatching(String roleName, String email);
 }
