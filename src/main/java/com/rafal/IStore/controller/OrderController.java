@@ -1,19 +1,18 @@
 package com.rafal.IStore.controller;
 
-import com.rafal.IStore.ItemOperation;
+import com.rafal.IStore.model.item.ItemOperation;
 import com.rafal.IStore.dto.OrderDto;
-import com.rafal.IStore.service.BusketService;
-import com.rafal.IStore.service.OrderService;
+import com.rafal.IStore.service.busket.BusketService;
+import com.rafal.IStore.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/order")
+@RequestMapping("/sneaker-store/order")
 public class OrderController {
 
     private final BusketService busketService;
@@ -53,10 +52,10 @@ public class OrderController {
         return "summary";
     }
 
-    @PostMapping("/saveorder")
+    @PostMapping("/save-order")
     public String saveOrder(OrderDto orderDto) {
         orderService.saveOrder(orderDto);
-        return "redirect:/home";
+        return "redirect:/sneaker-store/home";
     }
 
 
