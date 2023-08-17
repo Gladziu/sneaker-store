@@ -33,10 +33,7 @@ public class HomeController {
     @GetMapping("/home")
     public String home(Model model, HttpSession httpSession, Authentication authentication){
         model.addAttribute("items" ,busketService.getAllItems());
-
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        User user = userService.findUserByEmail(userDetails.getUsername());
-
+        User user = userService.getCurrentUser(authentication);
         if (userService.roleMatching("ROLE_ADMIN", user.getEmail())){
             return "adminview/adminhome";
         }

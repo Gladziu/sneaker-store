@@ -66,4 +66,7 @@ public class Busket {
         sum = BigDecimal.ZERO;
     }
 
+    public boolean isBusketQuantityZero(){
+        return sum.equals(BigDecimal.ZERO);
+    }
 }

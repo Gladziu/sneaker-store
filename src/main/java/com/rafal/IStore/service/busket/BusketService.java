@@ -7,6 +7,7 @@ import com.rafal.IStore.service.busket.Busket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,7 @@ public class BusketService {
         return itemRepository.findAll();
     }
 
+    public boolean isBusketEmpty(){ return busket.isBusketQuantityZero(); }
 
     public void itemOperation(Long itemId, ItemOperation itemOperation) {
         Optional<Item> oItem = itemRepository.findById(itemId);
