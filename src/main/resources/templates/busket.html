@@ -2,17 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>IStore</title>
+    <title>SneakerStore - basket</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
 <header th:replace="fragments/header :: ShopHeader"></header>
 
 <div class="main-content">
-    <div style="background-color: grey; width: 100%; display: flex; flex-direction: column; align-items: center;">
+    <div style="background-color: #f2f2f2; padding: 15px; width: 50%; display: flex; flex-direction: column; align-items: center;">
         <table style="text-align: center;">
             <tr>
-                <th style="width: 30px;">No.</th>
                 <th style="width: 90px;"></th>
                 <th>Item</th>
                 <th>Quantity</th>
@@ -21,9 +20,8 @@
             </tr>
 
             <tr style="background-color: white;" th:each="busketItem : ${@busket.busketItem}">
-                <td>1</td>
                 <td>
-                    <img style="width: 95%; height: auto;" th:src="@{${busketItem.item.urlImage}}">
+                    <img style="width: 100%; height: auto;" th:src="@{${busketItem.item.urlImage}}">
                 </td>
                 <td th:text="${busketItem.item.name}"></td>
                 <td style="display: flex; padding-top: 10px; align-items: center; flex-wrap: wrap; justify-content: space-around;">
@@ -40,7 +38,8 @@
         <div>
             <h3><span>Summary: </span><span th:text="${@busket.sum}"></span>$</h3>
         </div>
-        <a th:href="@{/sneaker-store/order/summary}" class="add-btn">Next</a>
+        <a style="width: 50%;" th:href="@{/sneaker-store/order/summary}" class="add-btn">Checkout</a>
+        <p th:if="${busketIsEmpty}" class="error-message" th:text="${busketIsEmpty}"></p>
     </div>
 </div>
 </body>
