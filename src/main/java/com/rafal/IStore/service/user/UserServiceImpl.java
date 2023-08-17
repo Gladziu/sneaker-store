@@ -5,7 +5,8 @@ import com.rafal.IStore.model.user.Role;
 import com.rafal.IStore.model.user.User;
 import com.rafal.IStore.repository.RoleRepository;
 import com.rafal.IStore.repository.UserRepository;
-import com.rafal.IStore.service.user.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,12 @@ public class UserServiceImpl implements UserService {
         }
         user.setRoles(List.of(role));
         userRepository.save(user);
+    }
+
+    public User getCurrentUser(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String userEmail = userDetails.getUsername();
+        return findUserByEmail(userEmail);
     }
 
     @Override
