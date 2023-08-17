@@ -11,13 +11,13 @@ TODO:
  with additem and userslist DONE
 - trzeba uporzadkowac cały projekt, front-end edytowania przedmitów ulepszyć/zrobić bardziej czytelny,
     również userslist front-end ogarnąć DONE
-
+- block buying 0 items DONE
+- add auto complete name, surname in summary DONE
+- validate checkout details DONE
 
 - size selector
 - busket.html - organize, make it easy to read
 - learn how it all works
 - each user can check order history
-- add size select
 
 
-Nie poprawne dodawnie ID w users baza danych - sprawdzic
