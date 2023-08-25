@@ -16,22 +16,24 @@
                 <th>Item</th>
                 <th>Quantity</th>
                 <th>Total</th>
+                <th>Size</th>
                 <th style="width: 30px;"></th>
             </tr>
 
             <tr style="background-color: white;" th:each="busketItem : ${@busket.busketItem}">
                 <td>
-                    <img style="width: 100%; height: auto;" th:src="@{${busketItem.item.urlImage}}">
+                    <img style="width: 100%; height: auto;" th:src="@{${busketItem.itemWithSize.item.urlImage}}">
                 </td>
-                <td th:text="${busketItem.item.name}"></td>
+                <td th:text="${busketItem.itemWithSize.item.name}"></td>
                 <td style="display: flex; padding-top: 10px; align-items: center; flex-wrap: wrap; justify-content: space-around;">
-                    <a style="text-decoration: none;" th:href="@{'/sneaker-store/order/decrease/' + ${busketItem.item.id}}">-</a>
+                    <a style="text-decoration: none;"  th:href="@{'/sneaker-store/order/decrease/' + ${busketItem.itemWithSize.item.id} + '/' + ${busketItem.itemWithSize.size}}">-</a>
                     <p style="text-align: center;" th:text="${busketItem.counter}"></p>
-                    <a style="text-decoration: none;" th:href="@{'/sneaker-store/order/increase/' + ${busketItem.item.id}}">+</a>
+                    <a style="text-decoration: none;" th:href="@{'/sneaker-store/order/increase/' + ${busketItem.itemWithSize.item.id} + '/' + ${busketItem.itemWithSize.size}}">+</a>
                 </td>
                 <td th:text="${busketItem.price}"></td>
+                <td th:text="${busketItem.itemWithSize.size}"></td>
                 <td>
-                    <a style="text-decoration: none;" class="mbtn" th:href="@{'/sneaker-store/order/remove/' + ${busketItem.item.id}}">X</a>
+                    <a style="text-decoration: none;" class="mbtn" th:href="@{'/sneaker-store/order/remove/' + ${busketItem.itemWithSize.item.id} + '/' + ${busketItem.itemWithSize.size}}">X</a>
                 </td>
             </tr>
         </table>
