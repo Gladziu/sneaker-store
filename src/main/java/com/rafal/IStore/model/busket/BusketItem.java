@@ -1,6 +1,7 @@
 package com.rafal.IStore.model.busket;
 
 import com.rafal.IStore.model.item.Item;
+import com.rafal.IStore.model.item.ItemWithSize;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,14 +10,14 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class BusketItem {
-    private Item item;
+    private ItemWithSize itemWithSize;
     private int counter;
     private BigDecimal price;
 
-    public BusketItem(Item item) {
-        this.item = item;
+    public BusketItem(ItemWithSize itemWithSize) {
+        this.itemWithSize = itemWithSize;
         this.counter = 1;
-        this.price = item.getPrice();
+        this.price = itemWithSize.getItem().getPrice();
     }
 
     public void increaseCounter(){
@@ -32,14 +33,14 @@ public class BusketItem {
     }
 
     private void recalcalculate(){
-        price = item.getPrice().multiply(new BigDecimal(counter));
+        price = itemWithSize.getItem().getPrice().multiply(new BigDecimal(counter));
     }
 
     public boolean hasZeroItems(){
         return counter == 0;
     }
 
-    public boolean idEquals(Item item){
-        return this.item.getId().equals(item.getId());
+    public boolean idEquals(ItemWithSize itemWithSize){
+        return this.itemWithSize.getItem().getId().equals(itemWithSize.getItem().getId()) && this.itemWithSize.getSize() == itemWithSize.getSize();
     }
 }
