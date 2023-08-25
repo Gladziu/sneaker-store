@@ -12,11 +12,11 @@ import lombok.Setter;
 public class OrderDto {
 
     @NotEmpty(message = "First name is required")
-    @Pattern(regexp = "^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$", message = "Invalid first name")
+    @Pattern(regexp = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆŠŽ∂ð ,.'-]+$", message = "Invalid first name")
     private String firstName;
 
     @NotEmpty(message = "Last name is required")
-    @Pattern(regexp = "^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]+$", message = "Invalid last name")
+    @Pattern(regexp = "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆŠŽ∂ð ,.'-]+$", message = "Invalid last name")
     private String lastName;
 
     @NotEmpty(message = "Address is required")
@@ -29,6 +29,6 @@ public class OrderDto {
     private String postCode;
 
     @NotEmpty(message = "City is required")
-    @Pattern(regexp = "^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]+$", message = "Invalid city")
+    @Pattern(regexp = "^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ. ]+$", message = "Invalid city")
     private String city;
 }
