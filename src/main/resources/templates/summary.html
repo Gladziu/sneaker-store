@@ -12,8 +12,9 @@
     <div class="summary-left">
         <table class="summary-table">
             <tr th:each="busketItem : ${@busket.busketItem}">
-                <td><img class="product-image" th:src="@{${busketItem.item.urlImage}}"></td>
-                <td class="product-name" th:text="${busketItem.item.name}"></td>
+                <td><img class="product-image" th:src="@{${busketItem.itemWithSize.item.urlImage}}"></td>
+                <td class="product-name" th:text="${busketItem.itemWithSize.item.name}"></td>
+                <td class="product-quantity"><p th:text="${busketItem.itemWithSize.size}"></p> EU</td>
                 <td class="product-quantity"><p th:text="${busketItem.counter}"></p> qty.</td>
                 <td class="product-price" th:text="${busketItem.price}"></td>
             </tr>
@@ -26,19 +27,24 @@
             <form class="order-form" th:action="@{/sneaker-store/order/save-order}" method="post">
                 <label>First name</label>
                 <input type="text" name="firstName" th:value="${name}" required>
-                <span th:if="${#fields.hasErrors('orderDto.firstName')}" th:errors="*{orderDto.firstName}"></span>
+                <span style="color: red; margin-bottom: 10px" th:if="${#fields.hasErrors('orderDto.firstName')}" th:errors="*{orderDto.firstName}"></span>
+
                 <label>Last name</label>
                 <input type="text" name="lastName" th:value="${surname}" required>
-                <span th:if="${#fields.hasErrors('orderDto.lastName')}" th:errors="*{orderDto.lastName}"></span>
+                <span style="color: red; margin-bottom: 10px" th:if="${#fields.hasErrors('orderDto.lastName')}" th:errors="*{orderDto.lastName}"></span>
+
                 <label>Address</label>
                 <input type="text" name="address" required>
-                <span th:if="${#fields.hasErrors('orderDto.address')}" th:errors="*{orderDto.address}"></span>
+                <span style="color: red; margin-bottom: 10px" th:if="${#fields.hasErrors('orderDto.address')}" th:errors="*{orderDto.address}"></span>
+
                 <label>Post code</label>
                 <input type="text" name="postCode" required>
-                <span th:if="${#fields.hasErrors('orderDto.postCode')}" th:errors="*{orderDto.postCode}"></span>
+                <span style="color: red; margin-bottom: 10px" th:if="${#fields.hasErrors('orderDto.postCode')}" th:errors="*{orderDto.postCode}"></span>
+
                 <label>City</label>
                 <input type="text" name="city" required>
-                <span th:if="${#fields.hasErrors('orderDto.city')}" th:errors="*{orderDto.city}"></span>
+                <span style="color: red; margin-bottom: 10px" th:if="${#fields.hasErrors('orderDto.city')}" th:errors="*{orderDto.city}"></span>
+
                 <p class="total-cost"><span>Total cost: </span><span th:text="${@busket.sum}"></span>$</p>
                 <button class="submit-button" type="submit">Submit order</button>
             </form>
