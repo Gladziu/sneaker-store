@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>SneakerStore</title>
@@ -17,7 +17,12 @@
             <span th:text="${item.price}"> </span>
             <span>$</span>
         </div>
-        <a th:href="@{'/sneaker-store/add/' + ${item.id}}" class="add-btn">Add to basket</a>
+        <form th:action="@{'/sneaker-store/add/' + ${item.id}}" method="get">
+            <select name="size">
+                <option th:each="size : ${#numbers.sequence(35, 52)}" th:value="${size}" th:text="${size}"></option>
+            </select>
+            <button type="submit" class="add-btn">Add to basket</button>
+        </form>
     </div>
 </div>
 </body>
