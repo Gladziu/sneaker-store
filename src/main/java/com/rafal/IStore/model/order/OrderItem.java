@@ -18,10 +18,12 @@ public class OrderItem {
     private Long orderId;
     private Long itemId;
     private int amount;
+    private int size;
 
-    public OrderItem(Long orderId, Long itemId, int amount) {
+    public OrderItem(Long orderId, Long itemId, int amount, int size) {
         this.orderId = orderId;
         this.itemId = itemId;
         this.amount = amount;
+        this.size = size;
     }
 }

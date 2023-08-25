@@ -27,7 +27,7 @@ public class OrderMapper {
     public static List<OrderItem> mapToOrderItemList(Busket busket, Order order){
         List<OrderItem> orderItems = new ArrayList<>();
         for(BusketItem bItem : busket.getBusketItem()) {
-            orderItems.add(new OrderItem(order.getOrderId(), bItem.getItem().getId(), bItem.getCounter()));
+            orderItems.add(new OrderItem(order.getOrderId(), bItem.getItemWithSize().getItem().getId(), bItem.getCounter(), bItem.getItemWithSize().getSize()));
         }
         return orderItems;
     }
