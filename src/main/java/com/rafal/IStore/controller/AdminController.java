@@ -49,13 +49,13 @@ public class AdminController {
 
     @GetMapping("/delete/{itemId}")
     public String deleteItem(@PathVariable("itemId") Long itemId){
-        busketService.itemOperation(itemId, ItemOperation.REMOVE);
         itemService.deleteItem(itemId);
         return "redirect:/sneaker-store/home";
     }
 
     @GetMapping("/edit-item/{itemId}")
-    public String editItemForm(@PathVariable("itemId") Long itemId, Model model) {
+    public String editItemForm(@PathVariable("itemId") Long itemId,
+                               Model model) {
         Item item = itemService.findItemById(itemId);
         model.addAttribute("item", item);
         return "adminview/edititem";
