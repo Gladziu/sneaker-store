@@ -2,6 +2,7 @@ package com.rafal.IStore.service.busket;
 
 import com.rafal.IStore.model.busket.BusketItem;
 import com.rafal.IStore.model.item.Item;
+import com.rafal.IStore.model.item.ItemWithSize;
 import lombok.Getter;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -20,29 +21,29 @@ public class Busket {
     private int counter = 0;
     private BigDecimal sum = BigDecimal.ZERO;
 
-    public void addItem(Item item){
-        getBusketItemByItem(item).ifPresentOrElse(
+    public void addItem(ItemWithSize itemWithSize){
+        getBusketItemByItem(itemWithSize).ifPresentOrElse(
                 BusketItem::increaseCounter,
-                () -> busketItem.add(new BusketItem(item))
-        );
+                () -> busketItem.add(new BusketItem(itemWithSize)
+        ));
         recalulatePriceAndCounter();
     }
 
-    public void removeItem(Item item){
-        Optional<BusketItem> optionalBusketItem = getBusketItemByItem(item);
+    public void removeItem(ItemWithSize itemWithSize){
+        Optional<BusketItem> optionalBusketItem = getBusketItemByItem(itemWithSize);
         if (optionalBusketItem.isPresent()){
             BusketItem bItem = optionalBusketItem.get();
             bItem.decreaseCounter();
             if(bItem.hasZeroItems()){
-                removeAllItems(item);
+                removeAllItems(itemWithSize);
             } else {
                 recalulatePriceAndCounter();
             }
         }
     }
 
-    public void removeAllItems(Item item) {
-        busketItem.removeIf(i -> i.idEquals(item));
+    public void removeAllItems(ItemWithSize itemWithSize) {
+        busketItem.removeIf(i -> i.idEquals(itemWithSize));
         recalulatePriceAndCounter();
     }
 
@@ -54,9 +55,9 @@ public class Busket {
                 .reduce(0, Integer::sum);
     }
 
-    private Optional<BusketItem> getBusketItemByItem(Item item){
+    private Optional<BusketItem> getBusketItemByItem(ItemWithSize itemWithSize){
         return busketItem.stream()
-                .filter(i -> i.idEquals(item))
+                .filter(itemInBasket -> itemInBasket.idEquals(itemWithSize))
                 .findFirst();
     }
 
