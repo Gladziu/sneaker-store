@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>SneakerStore - order history</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+<header th:replace="fragments/header :: ShopHeader"></header>
+
+    <h1>Orders</h1>
+<table>
+    <thead>
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Address</th>
+        <th>Post Code</th>
+        <th>City</th>
+        <th>Order Date</th>
+        <th>Items</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.firstName}"></td>
+        <td th:text="${order.lastName}"></td>
+        <td th:text="${order.address}"></td>
+        <td th:text="${order.postCode}"></td>
+        <td th:text="${order.city}"></td>
+        <td th:text="${order.created}"></td>
+
+        <td colspan="6">
+            <table>
+
+                <tbody>
+                <tr th:each="orderItem : ${order.orderItems}">
+                    <td>
+                        <span th:each="item : ${items}" th:if="${item.id == orderItem.itemId}" th:text="${item.name}"></span>
+                    </td>
+                    <td th:text="${orderItem.amount}"></td>
+                    <td th:text="${orderItem.size}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>
