@@ -14,9 +14,9 @@
             <tr th:each="busketItem : ${@busket.busketItem}">
                 <td><img class="product-image" th:src="@{${busketItem.itemWithSize.item.urlImage}}"></td>
                 <td class="product-name" th:text="${busketItem.itemWithSize.item.name}"></td>
-                <td class="product-quantity"><p th:text="${busketItem.itemWithSize.size}"></p> EU</td>
-                <td class="product-quantity"><p th:text="${busketItem.counter}"></p> qty.</td>
-                <td class="product-price" th:text="${busketItem.price}"></td>
+                <td th:text="${busketItem.itemWithSize.size} + ' EU'"></td>
+                <td th:text="${busketItem.counter} + ' qty.'"></td>
+                <td class="product-price" th:text="${busketItem.price} + '$'"></td>
             </tr>
         </table>
     </div>
