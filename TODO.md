@@ -17,11 +17,10 @@ TODO:
 - size selector DONE
 - registration validation when email taken and incorrect firstname/lastname DONE
 - each user can check order history DONE
-
-- lepszy frontend orders history
-- summary frontend to display size,qty,price properly 
-- busket.html - organize, make it easy to read
-- learn how it all works
+- lepszy frontend orders history DONE
+- summary frontend to display size,qty,price properly DONE 
+- busket.html - organize, make it easy to read DONE
+- 
 - template/message when the items were purchased
 - naprawic problem, gdy admin usunie przedmiot to w historii zamowien nie ma juz nazwy przedmiotu
 
