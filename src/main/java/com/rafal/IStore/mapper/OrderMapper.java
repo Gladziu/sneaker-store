@@ -1,11 +1,12 @@
 package com.rafal.IStore.mapper;
 
-import com.rafal.IStore.service.busket.Busket;
-import com.rafal.IStore.model.busket.BusketItem;
 import com.rafal.IStore.dto.OrderDto;
+import com.rafal.IStore.model.busket.BusketItem;
 import com.rafal.IStore.model.order.Order;
 import com.rafal.IStore.model.order.OrderItem;
+import com.rafal.IStore.service.busket.Busket;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,8 @@ import java.util.List;
 
 public class OrderMapper {
 
-    public static Order mapToOrder(OrderDto orderDto){
+
+    public static Order mapToOrder(OrderDto orderDto, Busket busket){
         return Order.builder()
                 .firstName(orderDto.getFirstName())
                 .lastName(orderDto.getLastName())
@@ -21,6 +23,7 @@ public class OrderMapper {
                 .postCode(orderDto.getPostCode())
                 .city(orderDto.getCity())
                 .created(LocalDateTime.now())
+                .sum(busket.getSum())
                 .build();
     }
 
