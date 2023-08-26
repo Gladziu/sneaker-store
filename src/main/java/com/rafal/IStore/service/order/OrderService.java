@@ -23,7 +23,7 @@ public class OrderService {
     }
 
     public void saveOrder(OrderDto orderDto) {
-        Order order = OrderMapper.mapToOrder(orderDto);
+        Order order = OrderMapper.mapToOrder(orderDto, busket);
         orderRepository.save(order);
         orderItemRepository.saveAll(OrderMapper.mapToOrderItemList(busket, order));
         busket.clearBusket();
