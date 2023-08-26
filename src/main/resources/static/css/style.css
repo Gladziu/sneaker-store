@@ -68,7 +68,7 @@ p {
 }
 
 .logout a{
-    color: gray;
+    color: #999999;
 }
 
 .main-content {
@@ -224,6 +224,7 @@ p {
 .summary-table td {
     padding: 10px;
     vertical-align: middle;
+
 }
 
 .product-image {
@@ -233,11 +234,6 @@ p {
 
 .product-name {
     font-weight: bold;
-}
-
-.product-quantity {
-    display: flex;
-    align-items: center;
 }
 
 .product-price {
@@ -387,4 +383,26 @@ p {
   border: 1px solid #ccc;
   text-align: center;
   color: #D3D3D3;
+}
+
+.order-table {
+    border-collapse: collapse;
+    width: 90%;
+    margin: auto;
+}
+
+.order-table th, .order-table td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+.order-details-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.order-details-table td {
+    padding: 4px 8px;
+    border: 1px solid #dddddd;
 }
