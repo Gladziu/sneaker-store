@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SneakerStore - users list</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+<header th:replace="fragments/admin-header :: ShopHeaderAdmin"></header>
+
+<div class="main-content">
+    <div class="user-list">
+    <h2>List of Registered Users</h2>
+        <table class="user-table">
+        <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+            </tr>
+        </thead>
+            <tbody>
+                <tr th:each="user : ${users}">
+                  <td th:text="${user.firstName}"></td>
+                  <td th:text="${user.lastName}"></td>
+                  <td th:text="${user.email}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

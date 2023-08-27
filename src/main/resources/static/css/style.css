@@ -215,7 +215,6 @@ p {
     padding-left: 20px;
 }
 
-/* Stylizacja tabeli z podsumowaniem */
 .summary-table {
     width: 100%;
     border-collapse: collapse;
@@ -290,105 +289,106 @@ p {
 }
 
 .item-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 .item-name {
-  font-size: 24px;
-  font-weight: bold;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 .remove-button {
-  padding: 10px;
-  background-color: red;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-
+    padding: 10px;
+    background-color: red;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
 }
 
 .item-form {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .edit-form {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-row {
-  margin: 10px 0;
+    margin: 10px 0;
 }
 
 .form-row label {
-  font-weight: bold;
-  color: white;
+    font-weight: bold;
+    color: white;
 }
 
 .form-row input {
-  width: 100%;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
 }
 
 .save-button {
-  padding: 10px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  cursor: pointer;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
 
 .image-preview {
-  max-width: 100%;
-  height: auto;
+    max-width: 100%;
+    height: auto;
 }
 
 .add-to-basket-button {
-  padding: 10px;
-  background-color: #00aaff;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
+    padding: 10px;
+    background-color: #00aaff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
 }
 
 .user-list {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  color: white;
+    background-color: #f2f2f2;
+    padding: 15px;
+    width: 90%;
+    height: auto;
 }
 
 .user-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+    border-collapse: collapse;
+    width: auto;
+    margin: auto;
+    height: auto;
 }
 
-.table-header {
-  padding: 10px;
-  border: 1px solid #ccc;
-  background-color: #f2f2f2;
-  font-weight: bold;
-  text-align: center;
-  color: black;
+.user-table th, .user-table td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
 }
 
-.table-cell {
-  padding: 10px;
-  border: 1px solid #ccc;
-  text-align: center;
-  color: #D3D3D3;
+.order {
+    background-color: #f2f2f2;
+    padding: 15px;
+    width: 90%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .order-table {
     border-collapse: collapse;
-    width: 90%;
+    width: 60%;
     margin: auto;
+    height: auto;
 }
 
 .order-table th, .order-table td {

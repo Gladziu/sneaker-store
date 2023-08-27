@@ -5,7 +5,7 @@ import com.rafal.IStore.model.item.ItemOperation;
 import com.rafal.IStore.model.order.Order;
 import com.rafal.IStore.model.user.User;
 import com.rafal.IStore.repository.order.OrderRepository;
-import com.rafal.IStore.service.busket.BusketService;
+import com.rafal.IStore.service.basket.BasketService;
 import com.rafal.IStore.service.order.OrderService;
 import com.rafal.IStore.service.user.UserService;
 import jakarta.validation.Valid;
@@ -25,51 +25,51 @@ import java.util.List;
 @RequestMapping("/sneaker-store/order")
 public class OrderController {
 
-    private final BusketService busketService;
+    private final BasketService basketService;
     private final OrderService orderService;
     private final UserService userService;
     private final OrderRepository orderRepository;
 
     @Autowired
-    public OrderController(BusketService busketService, OrderService orderService, UserService userService, OrderRepository orderRepository) {
-        this.busketService = busketService;
+    public OrderController(BasketService basketService, OrderService orderService, UserService userService, OrderRepository orderRepository) {
+        this.basketService = basketService;
         this.orderService = orderService;
         this.userService = userService;
         this.orderRepository = orderRepository;
     }
 
-    @GetMapping("/busket")
-    public String showBusket(){
-        return "busket";
+    @GetMapping("/basket")
+    public String showBasket(){
+        return "basket";
     }
 
     @GetMapping("/increase/{itemId}/{size}")
     public String increaseItem(@PathVariable("itemId") Long itemId,
                                @PathVariable("size") int size){
-        busketService.itemOperation(itemId, size, ItemOperation.INCREASE);
-        return "busket";
+        basketService.itemOperation(itemId, size, ItemOperation.INCREASE);
+        return "basket";
     }
 
     @GetMapping("/decrease/{itemId}/{size}")
     public String decreaseItem(@PathVariable("itemId") Long itemId,
                                @PathVariable("size") int size){
-        busketService.itemOperation(itemId, size, ItemOperation.DECREASE);
-        return "busket";
+        basketService.itemOperation(itemId, size, ItemOperation.DECREASE);
+        return "basket";
     }
 
     @GetMapping("/remove/{itemId}/{size}")
     public String removeItemFromBasket(@PathVariable("itemId") Long itemId,
                                        @PathVariable("size") int size){
-        busketService.itemOperation(itemId, size, ItemOperation.REMOVE);
-        return "busket";
+        basketService.itemOperation(itemId, size, ItemOperation.REMOVE);
+        return "basket";
     }
 
     @GetMapping("/summary")
     public String showSummary(Model model,
                               Authentication authentication){
-        if(busketService.isBusketEmpty()){
-            model.addAttribute("busketIsEmpty", "Busket is empty!");
-            return "busket";
+        if(basketService.isBasketEmpty()){
+            model.addAttribute("basketIsEmpty", "Basket is empty!");
+            return "basket";
         }
         User user = userService.getCurrentUser(authentication);
         String fullName = user.getName();
@@ -83,11 +83,12 @@ public class OrderController {
     public String saveOrder(@Valid OrderDto orderDto,
                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "summary"; // Powrót do widoku z formularzem i wyświetleniem błędów
+            return "summary";
         }
         orderService.saveOrder(orderDto);
-        return "redirect:/sneaker-store/home";
+        return "thanks-for-shopping";
     }
+
 
     @GetMapping("/history")
     public String orderHistory(Model model,
@@ -96,7 +97,7 @@ public class OrderController {
         String fullName = user.getName();
         List<Order> currentUserOrders = orderRepository.findByFirstNameAndLastName(fullName.split(" ")[0], fullName.split(" ")[1]);
         model.addAttribute("orders", currentUserOrders);
-        model.addAttribute("items", busketService.getAllItems());
+        model.addAttribute("items", basketService.getAllItems());
         return "orders";
     }
 }

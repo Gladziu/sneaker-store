@@ -9,42 +9,34 @@
 <header th:replace="fragments/header :: ShopHeader"></header>
 
 <div class="main-content">
-    <div style="background-color: #f2f2f2; padding: 15px; width: 90%; height: auto; display: flex; flex-direction: column; align-items: center;">
+    <div class="order">
         <h1>Orders</h1>
         <table class="order-table">
             <thead>
             <tr>
-                <th>Address</th>
-                <th>Post Code</th>
-                <th>City</th>
                 <th>Order Date</th>
+                <th>Address</th>
                 <th>Items</th>
+                <th>Total Price</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="order : ${orders}">
-                <td th:text="${order.address}"></td>
-                <td th:text="${order.postCode}"></td>
-                <td th:text="${order.city}"></td>
-                <td th:text="${order.created}"></td>
-                <td colspan="3">
-                    <table class="order-details-table">
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Quantity</th>
-                            <th>Size</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                <td th:text="${#temporals.format(order.created, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td>
+                    <span th:text="${order.address}"></span><br>
+                    <span th:text="${order.postCode}"></span><br>
+                    <span th:text="${order.city}"></span>
+                </td>
+                <td>
+                    <table>
                         <tr th:each="orderItem : ${order.orderItems}">
-                            <td>
+                            <td style="border: 0px;">
                                 <span th:each="item : ${items}" th:if="${item.id == orderItem.itemId}" th:text="${item.name}"></span>
                             </td>
-                            <td th:text="${orderItem.amount}"></td>
-                            <td th:text="${orderItem.size + 'EU'}"></td>
+                            <td style="border: 0px;" th:text="${' x' + orderItem.amount}"></td>
+                            <td style="border: 0px;" th:text="${orderItem.size + 'EU'}"></td>
                         </tr>
-                        </tbody>
                     </table>
                 </td>
                 <td th:text="${order.sum} + '$'"></td>

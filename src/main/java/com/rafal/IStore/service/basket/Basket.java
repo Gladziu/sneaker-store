@@ -1,7 +1,6 @@
-package com.rafal.IStore.service.busket;
+package com.rafal.IStore.service.basket;
 
-import com.rafal.IStore.model.busket.BusketItem;
-import com.rafal.IStore.model.item.Item;
+import com.rafal.IStore.model.basket.BasketItem;
 import com.rafal.IStore.model.item.ItemWithSize;
 import lombok.Getter;
 import org.springframework.context.annotation.Scope;
@@ -16,23 +15,23 @@ import java.util.Optional;
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Getter
-public class Busket {
-    private List<BusketItem> busketItem = new ArrayList<>();
+public class Basket {
+    private List<BasketItem> basketItem = new ArrayList<>();
     private int counter = 0;
     private BigDecimal sum = BigDecimal.ZERO;
 
     public void addItem(ItemWithSize itemWithSize){
-        getBusketItemByItem(itemWithSize).ifPresentOrElse(
-                BusketItem::increaseCounter,
-                () -> busketItem.add(new BusketItem(itemWithSize)
+        getBasketItemByItem(itemWithSize).ifPresentOrElse(
+                BasketItem::increaseCounter,
+                () -> basketItem.add(new BasketItem(itemWithSize)
         ));
         recalulatePriceAndCounter();
     }
 
     public void removeItem(ItemWithSize itemWithSize){
-        Optional<BusketItem> optionalBusketItem = getBusketItemByItem(itemWithSize);
-        if (optionalBusketItem.isPresent()){
-            BusketItem bItem = optionalBusketItem.get();
+        Optional<BasketItem> optionalBasketItem = getBasketItemByItem(itemWithSize);
+        if (optionalBasketItem.isPresent()){
+            BasketItem bItem = optionalBasketItem.get();
             bItem.decreaseCounter();
             if(bItem.hasZeroItems()){
                 removeAllItems(itemWithSize);
@@ -43,31 +42,31 @@ public class Busket {
     }
 
     public void removeAllItems(ItemWithSize itemWithSize) {
-        busketItem.removeIf(i -> i.idEquals(itemWithSize));
+        basketItem.removeIf(i -> i.idEquals(itemWithSize));
         recalulatePriceAndCounter();
     }
 
 
     private void recalulatePriceAndCounter(){
-        sum = busketItem.stream().map(BusketItem::getPrice)
+        sum = basketItem.stream().map(BasketItem::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        counter = busketItem.stream().mapToInt(BusketItem::getCounter)
+        counter = basketItem.stream().mapToInt(BasketItem::getCounter)
                 .reduce(0, Integer::sum);
     }
 
-    private Optional<BusketItem> getBusketItemByItem(ItemWithSize itemWithSize){
-        return busketItem.stream()
+    private Optional<BasketItem> getBasketItemByItem(ItemWithSize itemWithSize){
+        return basketItem.stream()
                 .filter(itemInBasket -> itemInBasket.idEquals(itemWithSize))
                 .findFirst();
     }
 
-    public void clearBusket(){
-        busketItem.clear();
+    public void clearBasket(){
+        basketItem.clear();
         counter = 0;
         sum = BigDecimal.ZERO;
     }
 
-    public boolean isBusketQuantityZero(){
+    public boolean isBasketQuantityZero(){
         return sum.equals(BigDecimal.ZERO);
     }
 }

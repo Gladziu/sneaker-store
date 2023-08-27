@@ -2,7 +2,7 @@ package com.rafal.IStore.controller;
 
 import com.rafal.IStore.model.item.ItemOperation;
 import com.rafal.IStore.model.user.User;
-import com.rafal.IStore.service.busket.BusketService;
+import com.rafal.IStore.service.basket.BasketService;
 import com.rafal.IStore.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/sneaker-store")
 public class HomeController {
 
-    private final BusketService busketService;
+    private final BasketService basketService;
     private final UserService userService;
 
     @Autowired
-    public HomeController(BusketService busketService, UserService userService) {
-        this.busketService = busketService;
+    public HomeController(BasketService basketService, UserService userService) {
+        this.basketService = basketService;
         this.userService = userService;
     }
 
@@ -31,10 +31,10 @@ public class HomeController {
     public String home(Model model,
                        HttpSession httpSession,
                        Authentication authentication){
-        model.addAttribute("items" ,busketService.getAllItems());
+        model.addAttribute("items" ,basketService.getAllItems());
         User user = userService.getCurrentUser(authentication);
         if (userService.roleMatching("ROLE_ADMIN", user.getEmail())){
-            return "adminview/adminhome";
+            return "adminview/admin-home";
         }
         return "home";
     }
@@ -44,8 +44,8 @@ public class HomeController {
             @PathVariable("itemId") Long itemId,
             @RequestParam("size") int selectedSize,
             Model model){
-        busketService.itemOperation(itemId, selectedSize, ItemOperation.INCREASE);
-        model.addAttribute("items" ,busketService.getAllItems());
+        basketService.itemOperation(itemId, selectedSize, ItemOperation.INCREASE);
+        model.addAttribute("items" ,basketService.getAllItems());
         return "redirect:/sneaker-store/home";
     }
 }

@@ -1,4 +1,4 @@
-package com.rafal.IStore.service.busket;
+package com.rafal.IStore.service.basket;
 
 import com.rafal.IStore.model.item.Item;
 import com.rafal.IStore.model.item.ItemOperation;
@@ -11,16 +11,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BusketService {
+public class BasketService {
 
     private final ItemRepository itemRepository;
-    private final Busket busket;
+    private final Basket basket;
 
 
     @Autowired
-    public BusketService(ItemRepository itemRepository, Busket busket) {
+    public BasketService(ItemRepository itemRepository, Basket basket) {
         this.itemRepository = itemRepository;
-        this.busket = busket;
+        this.basket = basket;
 
     }
 
@@ -28,7 +28,7 @@ public class BusketService {
         return itemRepository.findAll();
     }
 
-    public boolean isBusketEmpty(){ return busket.isBusketQuantityZero(); }
+    public boolean isBasketEmpty(){ return basket.isBasketQuantityZero(); }
 
     public void itemOperation(Long itemId, int size, ItemOperation itemOperation) {
         Optional<Item> oItem = itemRepository.findById(itemId);
@@ -36,9 +36,9 @@ public class BusketService {
             Item item = oItem.get();
             ItemWithSize itemWithSize = new ItemWithSize(item, size);
             switch (itemOperation){
-                case INCREASE -> busket.addItem(itemWithSize);
-                case DECREASE -> busket.removeItem(itemWithSize);
-                case REMOVE -> busket.removeAllItems(itemWithSize);
+                case INCREASE -> basket.addItem(itemWithSize);
+                case DECREASE -> basket.removeItem(itemWithSize);
+                case REMOVE -> basket.removeAllItems(itemWithSize);
                 default -> throw new IllegalArgumentException();
             }
         }

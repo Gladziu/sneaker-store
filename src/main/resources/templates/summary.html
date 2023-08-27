@@ -10,13 +10,14 @@
 
 <div class="main-content">
     <div class="summary-left">
+        <h1>Check out</h1>
         <table class="summary-table">
-            <tr th:each="busketItem : ${@busket.busketItem}">
-                <td><img class="product-image" th:src="@{${busketItem.itemWithSize.item.urlImage}}"></td>
-                <td class="product-name" th:text="${busketItem.itemWithSize.item.name}"></td>
-                <td th:text="${busketItem.itemWithSize.size} + ' EU'"></td>
-                <td th:text="${busketItem.counter} + ' qty.'"></td>
-                <td class="product-price" th:text="${busketItem.price} + '$'"></td>
+            <tr th:each="basketItem : ${@basket.basketItem}">
+                <td><img class="product-image" th:src="@{${basketItem.itemWithSize.item.urlImage}}"></td>
+                <td class="product-name" th:text="${basketItem.itemWithSize.item.name}"></td>
+                <td th:text="${basketItem.itemWithSize.size} + ' EU'"></td>
+                <td th:text="${basketItem.counter} + ' qty.'"></td>
+                <td class="product-price" th:text="${basketItem.price} + '$'"></td>
             </tr>
         </table>
     </div>
@@ -45,7 +46,7 @@
                 <input type="text" name="city" required>
                 <span style="color: red; margin-bottom: 10px" th:if="${#fields.hasErrors('orderDto.city')}" th:errors="*{orderDto.city}"></span>
 
-                <p class="total-cost"><span>Total cost: </span><span th:text="${@busket.sum}"></span>$</p>
+                <p class="total-cost"><span>Total cost: </span><span th:text="${@basket.sum}"></span>$</p>
                 <button class="submit-button" type="submit">Submit order</button>
             </form>
         </div>

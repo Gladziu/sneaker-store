@@ -1,11 +1,9 @@
 package com.rafal.IStore.controller;
 
-import com.rafal.IStore.model.item.ItemOperation;
 import com.rafal.IStore.model.item.Item;
 import com.rafal.IStore.model.order.Order;
 import com.rafal.IStore.repository.ItemRepository;
 import com.rafal.IStore.repository.order.OrderRepository;
-import com.rafal.IStore.service.busket.BusketService;
 import com.rafal.IStore.service.item.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,18 +19,17 @@ public class AdminController {
     private final ItemRepository itemRepository;
     private final OrderRepository orderRepository;
     private final ItemService itemService;
-    private final BusketService busketService;
+
     @Autowired
-    public AdminController(ItemRepository itemRepository, OrderRepository orderRepository, ItemService itemService, BusketService busketService) {
+    public AdminController(ItemRepository itemRepository, OrderRepository orderRepository, ItemService itemService) {
         this.itemRepository = itemRepository;
         this.orderRepository = orderRepository;
         this.itemService = itemService;
-        this.busketService = busketService;
     }
 
     @GetMapping("/add-item")
     private String adminPage() {
-        return "adminview/additem";
+        return "adminview/add-item";
     }
 
     @PostMapping("/add-item")
@@ -58,7 +55,7 @@ public class AdminController {
                                Model model) {
         Item item = itemService.findItemById(itemId);
         model.addAttribute("item", item);
-        return "adminview/edititem";
+        return "adminview/edit-item";
     }
 
     @PostMapping("/edit-item")

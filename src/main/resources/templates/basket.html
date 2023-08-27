@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SneakerStore - basket</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+<header th:replace="fragments/header :: ShopHeader"></header>
+
+<div class="main-content">
+    <div style="background-color: #f2f2f2; padding: 15px; width: 50%; display: flex; flex-direction: column; align-items: center;">
+        <h1>Basket</h1>
+        <table style="text-align: center;">
+            <tr>
+                <th style="width: 90px;"></th>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Size</th>
+                <th style="width: 30px;"></th>
+            </tr>
+
+            <tr style="background-color: white;" th:each="basketItem : ${@basket.basketItem}">
+                <td>
+                    <img style="width: 100%; height: auto;" th:src="@{${basketItem.itemWithSize.item.urlImage}}">
+                </td>
+                <td th:text="${basketItem.itemWithSize.item.name}"></td>
+                <td style="display: flex; padding-top: 10px; align-items: center; flex-wrap: wrap; justify-content: space-around;">
+                    <a style="text-decoration: none;"  th:href="@{'/sneaker-store/order/decrease/' + ${basketItem.itemWithSize.item.id} + '/' + ${basketItem.itemWithSize.size}}">-</a>
+                    <p style="text-align: center;" th:text="${basketItem.counter}"></p>
+                    <a style="text-decoration: none;" th:href="@{'/sneaker-store/order/increase/' + ${basketItem.itemWithSize.item.id} + '/' + ${basketItem.itemWithSize.size}}">+</a>
+                </td>
+                <td th:text="${basketItem.price}"></td>
+                <td th:text="${basketItem.itemWithSize.size}"></td>
+                <td>
+                    <a style="text-decoration: none;" class="mbtn" th:href="@{'/sneaker-store/order/remove/' + ${basketItem.itemWithSize.item.id} + '/' + ${basketItem.itemWithSize.size}}">X</a>
+                </td>
+            </tr>
+        </table>
+        <div>
+            <h3><span>Summary: </span><span th:text="${@basket.sum}"></span>$</h3>
+        </div>
+        <a style="width: 50%;" th:href="@{/sneaker-store/order/summary}" class="add-btn">Checkout</a>
+        <p th:if="${basketIsEmpty}" class="error-message" th:text="${basketIsEmpty}"></p>
+    </div>
+</div>
+</body>
+</html>

@@ -58,6 +58,6 @@ public class UserController {
     public String users(Model model){
         List<UserDto> users = userService.findAllUsers();
         model.addAttribute("users", users);
-        return "adminview/userslist";
+        return "adminview/users-list";
     }
 }
