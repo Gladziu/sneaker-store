@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SneakerStore</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <meta http-equiv="refresh" th:content="'5;url=' + @{/sneaker-store/home}">
+</head>
+<body>
+<header th:replace="fragments/header :: ShopHeader"></header>
+
+<div class="main-content">
+    <div style="color: white; margin-top: 50px;">
+        <h1>Thanks for shopping at the Sneaker Store.</h1>
+        <h2>You can check your order history in the Orders section.</h2>
+        <p>You will be redirected to the main page in 5 seconds...</p>
+    </div>
+</div>
+
+</body>
+</html>
