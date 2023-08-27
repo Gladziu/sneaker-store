@@ -15,3 +15,5 @@ The administrator has additional rights such as editing, deleting or adding item
  - Lombok
 
 
+**Home page screenshot**
+![alt text](https://github.com/Gladziu/sneaker-store/blob/main/home_page.png?raw=true)
