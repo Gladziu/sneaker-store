@@ -8,9 +8,10 @@ The administrator has additional rights such as editing, deleting or adding item
  - Spring Boot
  - Spring Security
  - Spring Data JPA
+ - Spring MVC
+ - Hibernate
  - Thymeleaf
  - MySQL Database
- - Hibernate
  - Maven
  - Lombok
 
@@ -18,3 +19,7 @@ The administrator has additional rights such as editing, deleting or adding item
 **Home page screenshot**
 
 ![alt text](https://github.com/Gladziu/sneaker-store/blob/main/home_page.png?raw=true)
+
+
+**Video presentation**
+https://youtu.be/rhmtXX-LMSM
