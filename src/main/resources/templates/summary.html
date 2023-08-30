@@ -10,9 +10,8 @@
 
 <div class="main-content">
     <div class="summary-left">
-        <h1>Check out</h1>
         <table class="summary-table">
-            <tr th:each="basketItem : ${@basket.basketItem}">
+            <tr th:each="basketItem : ${@basketImpl.basketItem}">
                 <td><img class="product-image" th:src="@{${basketItem.itemWithSize.item.urlImage}}"></td>
                 <td class="product-name" th:text="${basketItem.itemWithSize.item.name}"></td>
                 <td th:text="${basketItem.itemWithSize.size} + ' EU'"></td>
@@ -46,7 +45,7 @@
                 <input type="text" name="city" required>
                 <span style="color: red; margin-bottom: 10px" th:if="${#fields.hasErrors('orderDto.city')}" th:errors="*{orderDto.city}"></span>
 
-                <p class="total-cost"><span>Total cost: </span><span th:text="${@basket.sum}"></span>$</p>
+                <p class="total-cost"><span>Total cost: </span><span th:text="${@basketImpl.sum}"></span>$</p>
                 <button class="submit-button" type="submit">Submit order</button>
             </form>
         </div>

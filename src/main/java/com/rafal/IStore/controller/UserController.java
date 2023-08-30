@@ -4,7 +4,7 @@ import com.rafal.IStore.dto.UserDto;
 import com.rafal.IStore.model.user.User;
 import com.rafal.IStore.service.user.UserService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,14 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model){
@@ -37,7 +33,7 @@ public class UserController {
                                Model model){
         User existingUser = userService.findUserByEmail(userDto.getEmail());
 
-        if(existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()){
+        if(existingUser != null){
             bindingResult.rejectValue("email", null,
                     "There is already an account registered with the same email");
         }
@@ -50,9 +46,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login(){
-        return "/user/login";
-    }
+    public String login(){ return "/user/login"; }
 
     @GetMapping("/admin/users")
     public String users(Model model){
