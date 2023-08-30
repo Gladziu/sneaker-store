@@ -5,7 +5,7 @@ import com.rafal.IStore.model.order.Order;
 import com.rafal.IStore.repository.ItemRepository;
 import com.rafal.IStore.repository.order.OrderRepository;
 import com.rafal.IStore.service.item.ItemService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/admin")
 public class AdminController {
 
@@ -20,29 +21,18 @@ public class AdminController {
     private final OrderRepository orderRepository;
     private final ItemService itemService;
 
-    @Autowired
-    public AdminController(ItemRepository itemRepository, OrderRepository orderRepository, ItemService itemService) {
-        this.itemRepository = itemRepository;
-        this.orderRepository = orderRepository;
-        this.itemService = itemService;
-    }
-
     @GetMapping("/add-item")
-    private String adminPage() {
-        return "adminview/add-item";
-    }
+    public String adminPage() { return "adminview/add-item"; }
 
     @PostMapping("/add-item")
-    private String addItem(Item item){
+    public String addItem(Item item){
         itemRepository.save(item);
         return "redirect:/sneaker-store/home";
     }
 
     @GetMapping("/show-orders")
     @ResponseBody
-    public List<Order> showOrders(){
-        return orderRepository.findAll();
-    }
+    public List<Order> showOrders(){ return orderRepository.findAll(); }
 
     @GetMapping("/delete/{itemId}")
     public String deleteItem(@PathVariable("itemId") Long itemId){
@@ -59,8 +49,8 @@ public class AdminController {
     }
 
     @PostMapping("/edit-item")
-    public String editItem(@ModelAttribute Item item) {
-        itemService.updateItemPrice(item.getId(), item.getPrice(), item.getName(), item.getUrlImage());
+    public String editItem(Item item) {
+        itemService.editItem(item.getId(), item.getPrice(), item.getName(), item.getUrlImage());
         return "redirect:/sneaker-store/home";
     }
 }

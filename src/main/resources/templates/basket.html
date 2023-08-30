@@ -21,7 +21,7 @@
                 <th style="width: 30px;"></th>
             </tr>
 
-            <tr style="background-color: white;" th:each="basketItem : ${@basket.basketItem}">
+            <tr style="background-color: white;" th:each="basketItem : ${@basketImpl.basketItem}">
                 <td>
                     <img style="width: 100%; height: auto;" th:src="@{${basketItem.itemWithSize.item.urlImage}}">
                 </td>
@@ -39,7 +39,7 @@
             </tr>
         </table>
         <div>
-            <h3><span>Summary: </span><span th:text="${@basket.sum}"></span>$</h3>
+            <h3><span>Summary: </span><span th:text="${@basketImpl.sum}"></span>$</h3>
         </div>
         <a style="width: 50%;" th:href="@{/sneaker-store/order/summary}" class="add-btn">Checkout</a>
         <p th:if="${basketIsEmpty}" class="error-message" th:text="${basketIsEmpty}"></p>

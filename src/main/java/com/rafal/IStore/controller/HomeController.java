@@ -5,7 +5,7 @@ import com.rafal.IStore.model.user.User;
 import com.rafal.IStore.service.basket.BasketService;
 import com.rafal.IStore.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,23 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/sneaker-store")
 public class HomeController {
 
     private final BasketService basketService;
     private final UserService userService;
 
-    @Autowired
-    public HomeController(BasketService basketService, UserService userService) {
-        this.basketService = basketService;
-        this.userService = userService;
-    }
-
     @GetMapping("/home")
     public String home(Model model,
                        HttpSession httpSession,
                        Authentication authentication){
-        model.addAttribute("items" ,basketService.getAllItems());
+        model.addAttribute("items", basketService.getAllItems());
         User user = userService.getCurrentUser(authentication);
         if (userService.roleMatching("ROLE_ADMIN", user.getEmail())){
             return "adminview/admin-home";

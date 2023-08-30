@@ -1,15 +1,13 @@
 package com.rafal.IStore.model.item;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class ItemWithSize {
-    private Item item;
-    private int size;
 
-    public ItemWithSize(Item item, int size) {
-        this.item = item;
-        this.size = size;
-    }
+    private final Item item;
+    private final int size;
 }
