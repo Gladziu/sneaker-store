@@ -5,16 +5,13 @@ import com.rafal.IStore.model.basket.BasketItem;
 import com.rafal.IStore.model.order.Order;
 import com.rafal.IStore.model.order.OrderItem;
 import com.rafal.IStore.service.basket.Basket;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class OrderMapper {
 
-
-    public static Order mapToOrder(OrderDto orderDto, Basket basket){
+    public static Order mapToOrder(OrderDto orderDto, Basket basket, String userEmail){
         return Order.builder()
                 .firstName(orderDto.getFirstName())
                 .lastName(orderDto.getLastName())
@@ -23,6 +20,7 @@ public class OrderMapper {
                 .city(orderDto.getCity())
                 .created(LocalDateTime.now())
                 .sum(basket.getSum())
+                .email(userEmail)
                 .build();
     }
 
