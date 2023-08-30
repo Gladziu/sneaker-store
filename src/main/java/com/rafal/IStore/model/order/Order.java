@@ -25,6 +25,7 @@ public class Order {
     private String city;
     private LocalDateTime created;
     private BigDecimal sum;
+    private String email;
 
     @OneToMany
     @JoinColumn(name = "orderId")
