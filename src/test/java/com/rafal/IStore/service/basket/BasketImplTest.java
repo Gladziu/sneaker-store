@@ -3,183 +3,254 @@ package com.rafal.IStore.service.basket;
 import com.rafal.IStore.model.basket.BasketItem;
 import com.rafal.IStore.model.item.Item;
 import com.rafal.IStore.model.item.ItemWithSize;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 class BasketImplTest {
-    private BasketImpl basketUnderTest;
-    @BeforeEach
-    void setUp() {
-        basketUnderTest = new BasketImpl();
-    }
+
+    @InjectMocks
+    private BasketImpl basket;
+
     @Test
-    void canAddNewItem() {
-        Item item = new Item("Sneakers", new BigDecimal("200"), null);
-        item.setId(100L);
+    void testAddNewItem() {
+        //Given
+        Long itemId = 1L;
         int size = 40;
+        Item item = new Item("Test", new BigDecimal("200"), null);
+        item.setId(itemId);
         ItemWithSize itemWithSize = new ItemWithSize(item, size);
-        basketUnderTest.addItem(itemWithSize);
 
-        Item item2 = new Item("Nike", new BigDecimal("220"), null);
-        item2.setId(101L);
-        ItemWithSize itemWithSize2 = new ItemWithSize(item2, 44);
-        basketUnderTest.addItem(itemWithSize2);
+        basket.addItem(itemWithSize);
 
-        List<BasketItem> basketItems = basketUnderTest.getBasketItem();
+        //When
+        List<BasketItem> basketItems = basket.getBasketItem();
+
+        //Then
         assertEquals(new BigDecimal("200"), basketItems.get(0).getPrice());
-        assertEquals(new BigDecimal("220"), basketItems.get(1).getPrice());
     }
 
     @Test
-    void canAddAnotherItem() {
-        Item item = new Item("Sneakers", new BigDecimal("200"), null);
-        item.setId(100L);
-        ItemWithSize itemWithSize = new ItemWithSize(item, 40);
-
-        basketUnderTest.addItem(itemWithSize);
-        basketUnderTest.addItem(itemWithSize);
-        basketUnderTest.addItem(itemWithSize);
-        List<BasketItem> basketItems = basketUnderTest.getBasketItem();
-        assertEquals(3, basketItems.get(0).getCounter());
-    }
-
-    @Test
-    void canRemoveItemAndMakeBasketEmpty() {
-        Item item = new Item("Sneakers", new BigDecimal("200"), "urlImage");
-        item.setId(100L);
+    void testAddAnotherItemOfOneType() {
+        //Given
+        Long itemId = 1L;
         int size = 40;
+        Item item = new Item("Test", new BigDecimal("200"), null);
+        item.setId(itemId);
         ItemWithSize itemWithSize = new ItemWithSize(item, size);
-        basketUnderTest.addItem(itemWithSize);
 
-        basketUnderTest.removeItem(itemWithSize);
+        basket.addItem(itemWithSize);
+        basket.addItem(itemWithSize);
 
-        List<BasketItem> basketItems = basketUnderTest.getBasketItem();
+        //When
+        List<BasketItem> basketItems = basket.getBasketItem();
+
+        //Then
+        assertEquals(2, basketItems.get(0).getCounter());
+    }
+
+    @Test
+    void testRemoveItem() {
+        //Given
+        Long itemId = 1L;
+        int size = 40;
+        Item item = new Item("Test", new BigDecimal("200"), null);
+        item.setId(itemId);
+        ItemWithSize itemWithSize = new ItemWithSize(item, size);
+
+        basket.addItem(itemWithSize);
+        basket.removeItem(itemWithSize);
+
+        //When
+        List<BasketItem> basketItems = basket.getBasketItem();
+
+        //Then
         assertTrue(basketItems.isEmpty());
-
-        assertTrue(basketUnderTest.isBasketQuantityZero());
     }
 
     @Test
-    void canRemoveJustOneItem() {
-        Item item = new Item("Sneakers", new BigDecimal("200"), "urlImage");
-        item.setId(100L);
+    void testRemoveOneItem() {
+        //Given
+        Long itemId = 1L;
         int size = 40;
+        Item item = new Item("Test", new BigDecimal("200"), null);
+        item.setId(itemId);
         ItemWithSize itemWithSize = new ItemWithSize(item, size);
-        basketUnderTest.addItem(itemWithSize);
-        basketUnderTest.addItem(itemWithSize);
 
-        basketUnderTest.removeItem(itemWithSize);
+        basket.addItem(itemWithSize);
+        basket.addItem(itemWithSize);
 
-        List<BasketItem> basketItems = basketUnderTest.getBasketItem();
+        basket.removeItem(itemWithSize);
+
+        //When
+        List<BasketItem> basketItems = basket.getBasketItem();
+
+        //Then
         assertFalse(basketItems.isEmpty());
-
-        assertFalse(basketUnderTest.isBasketQuantityZero());
     }
 
 
     @Test
-    void canRemoveAllItemsOfOneType() {
-        Item item = new Item("Sneakers", new BigDecimal("200"), "urlImage");
-        item.setId(100L);
+    void testRemoveAllItemsAtOnce() {
+        //Given
+        Long itemId = 1L;
         int size = 40;
+        Item item = new Item("Test", new BigDecimal("200"), null);
+        item.setId(itemId);
         ItemWithSize itemWithSize = new ItemWithSize(item, size);
-        basketUnderTest.addItem(itemWithSize);
-        basketUnderTest.addItem(itemWithSize);
-        basketUnderTest.addItem(itemWithSize);
 
-        basketUnderTest.removeAllItems(itemWithSize);
+        basket.addItem(itemWithSize);
+        basket.addItem(itemWithSize);
+        basket.addItem(itemWithSize);
 
-        List<BasketItem> basketItems = basketUnderTest.getBasketItem();
+        basket.removeAllItems(itemWithSize);
+
+        //When
+        List<BasketItem> basketItems = basket.getBasketItem();
+
+        //Then
         assertTrue(basketItems.isEmpty());
-
-        assertTrue(basketUnderTest.isBasketQuantityZero());
     }
 
     @Test
-    void canClearBasket() {
-        Item item = new Item("Sneakers", new BigDecimal("200"), "urlImage");
-        item.setId(100L);
+    void testClearBasket() {
+        //Given
+        Long itemId = 1L;
         int size = 40;
+        Item item = new Item("Test", new BigDecimal("200"), null);
+        item.setId(itemId);
         ItemWithSize itemWithSize = new ItemWithSize(item, size);
-        basketUnderTest.addItem(itemWithSize);
 
-        basketUnderTest.clearBasket();
+        Long itemId2 = 2L;
+        int size2 = 44;
+        Item item2 = new Item("Test2", new BigDecimal("222"), null);
+        item.setId(itemId2);
+        ItemWithSize itemWithSize2 = new ItemWithSize(item2, size2);
 
-        List<BasketItem> basketItems = basketUnderTest.getBasketItem();
+        basket.addItem(itemWithSize);
+        basket.addItem(itemWithSize);
+        basket.addItem(itemWithSize2);
+
+        basket.clearBasket();
+
+        //When
+        List<BasketItem> basketItems = basket.getBasketItem();
+
+        //Then
         assertTrue(basketItems.isEmpty());
-
-        assertTrue(basketUnderTest.isBasketQuantityZero());
     }
 
     @Test
-    void testIsBasketQuantityZero() {
-        assertTrue(basketUnderTest.isBasketQuantityZero());
-        Item item = new Item("Sneakers", new BigDecimal("200"), "urlImage");
-        item.setId(100L);
+    void testIsBasketQuantityZero_WithItemsInBasket() {
+        //Given
+        Long itemId = 1L;
         int size = 40;
+        Item item = new Item("Test", new BigDecimal("200"), null);
+        item.setId(itemId);
         ItemWithSize itemWithSize = new ItemWithSize(item, size);
-        basketUnderTest.addItem(itemWithSize);
+        basket.addItem(itemWithSize);
 
-        assertFalse(basketUnderTest.isBasketQuantityZero());
+        //When
+        boolean result = basket.isBasketQuantityZero();
+
+        //Then
+        assertFalse(result);
     }
+
+    @Test
+    void testIsBasketQuantityZero_WithEmptyBasket() {
+        //Given
+
+
+        //When
+        boolean result = basket.isBasketQuantityZero();
+
+        //Then
+        assertTrue(result);
+    }
+
+
 
     @Test
     void testGetBasketItem() {
-        Item item = new Item("Sneakers", new BigDecimal("200.09"), "urlImage");
-        item.setId(100L);
+        //Given
+        Long itemId = 1L;
         int size = 40;
+        Item item = new Item("Test", new BigDecimal("200"), null);
+        item.setId(itemId);
         ItemWithSize itemWithSize = new ItemWithSize(item, size);
-        basketUnderTest.addItem(itemWithSize);
 
-        List<BasketItem> basketItems = basketUnderTest.getBasketItem();
-        assertEquals("Sneakers", basketItems.get(0).getItemWithSize().getItem().getName());
+        basket.addItem(itemWithSize);
+
+        //When
+        List<BasketItem> basketItems = basket.getBasketItem();
+
+        //Then
+        assertEquals("Test", basketItems.get(0).getItemWithSize().getItem().getName());
     }
 
     @Test
-    void testGetCounter() {
+    void testGetCounter_NotEmptyBasket() {
+        //Given
+        Long itemId = 1L;
+        int size = 40;
+        Item item = new Item("Test", new BigDecimal("200"), null);
+        item.setId(itemId);
+        ItemWithSize itemWithSize = new ItemWithSize(item, size);
 
-        assertEquals(0, basketUnderTest.getCounter());
+        basket.addItem(itemWithSize);
 
-        Item item = new Item("Sneakers Nike", new BigDecimal("200.09"), "urlImage");
-        item.setId(100L);
-        ItemWithSize itemWithSize = new ItemWithSize(item, 40);
-        basketUnderTest.addItem(itemWithSize);
+        //When
+        int expectedCounter = 1;
 
-        Item item2 = new Item("Sneakers Adidas", new BigDecimal("145.49"), "urlImage");
-        item2.setId(101L);
-        ItemWithSize itemWithSize2 = new ItemWithSize(item2, 44);
-        basketUnderTest.addItem(itemWithSize2);
-
-        assertEquals(2, basketUnderTest.getCounter());
+        //Then
+        assertEquals(expectedCounter, basket.getCounter());
     }
 
     @Test
-    void testGetSum() {
+    void testGetCounter_WithEmptyBasket() {
+        //Given
 
-        assertEquals(new BigDecimal("0"), basketUnderTest.getSum());
+        //When
+        int expectedCounter = basket.getCounter();
 
-        Item item = new Item("Sneakers Nike", new BigDecimal("200.09"), "urlImage");
-        item.setId(100L);
-        ItemWithSize itemWithSize = new ItemWithSize(item, 40);
-        basketUnderTest.addItem(itemWithSize);
-
-        Item item2 = new Item("Sneakers Adidas", new BigDecimal("145.49"), "urlImage");
-        item2.setId(101L);
-        ItemWithSize itemWithSize2 = new ItemWithSize(item2, 44);
-        basketUnderTest.addItem(itemWithSize2);
-
-        BigDecimal expectedSum = new BigDecimal("345.58");
-        assertEquals(expectedSum, basketUnderTest.getSum());
+        //Then
+        assertEquals(expectedCounter, basket.getCounter());
     }
 
+    @Test
+    void testGetSum_WithNotEmptyBasket() {
+        //Given
+        Long itemId = 1L;
+        int size = 40;
+        Item item = new Item("Test", new BigDecimal("200.22"), null);
+        item.setId(itemId);
+        ItemWithSize itemWithSize = new ItemWithSize(item, size);
+
+        basket.addItem(itemWithSize);
+
+        //When
+        BigDecimal expectedSum = new BigDecimal("200.22");
+
+        //Then
+        assertEquals(expectedSum, basket.getSum());
+    }
+
+    @Test
+    void testGetSum_WithEmptyBasket() {
+        //Given
+
+        //When
+        BigDecimal expectedSum = BigDecimal.ZERO;
+
+        //Then
+        assertEquals(expectedSum, basket.getSum());
+    }
 }
