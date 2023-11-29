@@ -19,27 +19,27 @@ public class BasketItem {
         this.price = itemWithSize.getItem().getPrice();
     }
 
-    public void increaseCounter(){
+    public void increaseCounter() {
         counter++;
-        recalcalculate();
+        recalculation();
     }
 
-    public void decreaseCounter(){
-        if(counter > 0){
+    public void decreaseCounter() {
+        if (counter > 0) {
             counter--;
-            recalcalculate();
+            recalculation();
         }
     }
 
-    private void recalcalculate(){
+    private void recalculation() {
         price = itemWithSize.getItem().getPrice().multiply(new BigDecimal(counter));
     }
 
-    public boolean hasZeroItems(){
+    public boolean hasZeroItems() {
         return counter == 0;
     }
 
-    public boolean idEquals(ItemWithSize itemWithSize){
+    public boolean idEquals(ItemWithSize itemWithSize) {
         return this.itemWithSize.getItem().getId().equals(itemWithSize.getItem().getId()) && this.itemWithSize.getSize() == itemWithSize.getSize();
     }
 }
