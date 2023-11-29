@@ -1,11 +1,9 @@
 package com.rafal.IStore.controller;
 
+import com.rafal.IStore.dto.UserDto;
 import com.rafal.IStore.model.item.Item;
-import com.rafal.IStore.model.order.Order;
-import com.rafal.IStore.repository.ItemRepository;
-import com.rafal.IStore.repository.order.OrderRepository;
 import com.rafal.IStore.service.item.ItemService;
-import lombok.RequiredArgsConstructor;
+import com.rafal.IStore.service.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,29 +11,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final ItemRepository itemRepository;
-    private final OrderRepository orderRepository;
+    private final UserService userService;
     private final ItemService itemService;
 
+    public AdminController(UserService userService, ItemService itemService) {
+        this.userService = userService;
+        this.itemService = itemService;
+    }
+
     @GetMapping("/add-item")
-    public String adminPage() { return "adminview/add-item"; }
+    public String adminPage() {
+        return "adminview/add-item";
+    }
 
     @PostMapping("/add-item")
-    public String addItem(Item item){
-        itemRepository.save(item);
+    public String addItem(Item item) {
+        itemService.addItem(item);
         return "redirect:/sneaker-store/home";
     }
 
-    @GetMapping("/show-orders")
-    @ResponseBody
-    public List<Order> showOrders(){ return orderRepository.findAll(); }
+    @GetMapping("/users")
+    public String users(Model model) {
+        List<UserDto> users = userService.findAllUsers();
+        model.addAttribute("users", users);
+        return "adminview/users-list";
+    }
 
     @GetMapping("/delete/{itemId}")
-    public String deleteItem(@PathVariable("itemId") Long itemId){
+    public String deleteItem(@PathVariable("itemId") Long itemId) {
         itemService.deleteItem(itemId);
         return "redirect:/sneaker-store/home";
     }
@@ -50,7 +56,7 @@ public class AdminController {
 
     @PostMapping("/edit-item")
     public String editItem(Item item) {
-        itemService.editItem(item.getId(), item.getPrice(), item.getName(), item.getUrlImage());
+        itemService.editItem(item);
         return "redirect:/sneaker-store/home";
     }
 }
