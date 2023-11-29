@@ -5,7 +5,8 @@ import com.rafal.IStore.model.item.Item;
 import java.math.BigDecimal;
 
 public interface ItemService {
-    public void deleteItem(Long itemId);
-    public void editItem(Long itemId, BigDecimal newPrice, String newName, String newUrlImg);
-    public Item findItemById(Long itemId);
+    void deleteItem(Long itemId);
+    void editItem(Item item);
+    Item findItemById(Long itemId);
+    void addItem(Item item);
 }
