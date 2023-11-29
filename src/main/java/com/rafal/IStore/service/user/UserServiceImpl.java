@@ -5,7 +5,6 @@ import com.rafal.IStore.model.user.Role;
 import com.rafal.IStore.model.user.User;
 import com.rafal.IStore.repository.RoleRepository;
 import com.rafal.IStore.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,12 +14,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public void saveUser(UserDto userDto) {
@@ -30,7 +34,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         Role role = roleRepository.findByName("ROLE_USER");
-        if(role == null){
+        if (role == null) {
             role = checkRoleExist();
         }
         user.setRoles(List.of(role));
@@ -45,7 +49,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByEmail(String email) { return userRepository.findByEmail(email); }
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 
     @Override
     public List<UserDto> findAllUsers() {
@@ -56,12 +62,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean roleMatching(String roleName, String email){
+    public boolean isAdmin(Authentication authentication) {
+        User user = getCurrentUser(authentication);
+        return roleMatching("ROLE_ADMIN", user.getEmail());
+    }
+
+    @Override
+    public boolean roleMatching(String roleName, String email) {
         User user = userRepository.findByEmail(email);
         return user.getRoles().stream().anyMatch(role -> role.getName().equals(roleName));
     }
 
-    private UserDto mapToUserDto(User user){
+    @Override
+    public boolean hasUserExists(UserDto userDto) {
+        User existingUser = findUserByEmail(userDto.getEmail());
+        return existingUser != null;
+    }
+
+    private UserDto mapToUserDto(User user) {
         UserDto userDto = new UserDto();
         String[] str = user.getName().split(" ");
         userDto.setFirstName(str[0]);
@@ -70,7 +88,7 @@ public class UserServiceImpl implements UserService {
         return userDto;
     }
 
-    private Role checkRoleExist(){
+    private Role checkRoleExist() {
         Role role = new Role();
         role.setName("ROLE_USER");
         return roleRepository.save(role);
