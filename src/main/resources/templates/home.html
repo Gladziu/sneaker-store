@@ -6,7 +6,11 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-<header th:replace="fragments/header :: ShopHeader"></header>
+<header th:replace="~{fragments/header :: ShopHeader(sum=${sum}, quantity=${quantity})}"></header>
+
+<div class="welcome">
+    <h2>Hi <span th:text="${firstName}"></span> ! :)</h2>
+</div>
 
 <div class="main-content">
     <div class="item" th:each="item : ${items}">
@@ -17,7 +21,7 @@
             <span th:text="${item.price}"> </span>
             <span>$</span>
         </div>
-        <form th:action="@{'/sneaker-store/add/' + ${item.id}}" method="get">
+        <form th:action="@{'/sneaker-store/add/' + ${item.id}}" method="post">
             <select name="size">
                 <option th:each="size : ${#numbers.sequence(35, 52)}" th:value="${size}" th:text="${size}"></option>
             </select>
