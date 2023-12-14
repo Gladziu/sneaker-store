@@ -21,7 +21,7 @@ public class OrderDto {
 
     @NotEmpty(message = "Address is required")
     @Pattern(regexp = "^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\\s]+\\s+[0-9]+(?:/[0-9]+)?|" +
-                      "^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\\s]+\\s*[0-9]*$", message = "Invalid address")
+            "^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\\s]+\\s*[0-9]*$", message = "Invalid address")
     private String address;
 
     @NotEmpty(message = "Postal code is required")
