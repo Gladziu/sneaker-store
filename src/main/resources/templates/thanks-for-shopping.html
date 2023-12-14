@@ -7,7 +7,7 @@
     <meta http-equiv="refresh" th:content="'5;url=' + @{/sneaker-store/home}">
 </head>
 <body>
-<header th:replace="fragments/header :: ShopHeader"></header>
+<header th:replace="~{fragments/header :: ShopHeader(sum=0, quantity=0)}"></header>
 
 <div class="main-content">
     <div style="color: white; margin-top: 50px;">

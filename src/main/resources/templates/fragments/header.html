@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-    <header th:fragment="ShopHeader">
+    <header th:fragment="ShopHeader(sum, quantity)">
         <div> <a th:href="@{/sneaker-store/home}"><span class="title">Sneaker Store</span></a></div>
         <div class="right">
             <div class="logout">
@@ -11,9 +11,9 @@
                 <a  th:href="@{/logout}">Logout</a>
             </div>
             <div>
-                <span th:text="${@basketImpl.counter}"></span>
+                <span th:text="${quantity}"></span>
                 <span>qty</span>
-                <span th:text="${@basketImpl.sum}"></span>
+                <span th:text="${sum}"></span>
                 <span>$</span>
             </div>
             <div class="busket-ico">
