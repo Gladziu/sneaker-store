@@ -1,16 +1,16 @@
 package com.rafal.IStore.model.item;
 
-import jakarta.persistence.Entity;
+import com.rafal.IStore.model.basket.BasketItem;
+import jakarta.persistence.*;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -24,6 +24,9 @@ public class Item {
     private String name;
     private BigDecimal price;
     private String urlImage;
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<BasketItem> basketItem = new ArrayList<>();
 
     public Item(String name, BigDecimal price, String urlImage) {
         this.name = name;
