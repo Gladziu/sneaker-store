@@ -1,12 +1,9 @@
 package com.rafal.IStore.service.basket;
 
-import com.rafal.IStore.model.item.Item;
-import com.rafal.IStore.model.item.ItemOperation;
-
-import java.util.List;
+import org.springframework.security.core.Authentication;
 
 public interface BasketService {
-    List<Item> getAllItems();
-    boolean isBasketEmpty();
-    void itemOperation(Long itemId, int size, ItemOperation itemOperation);
+
+    void itemOperation(Long itemId, int size, BasketOperation basketOperation, Authentication authentication);
+
 }
