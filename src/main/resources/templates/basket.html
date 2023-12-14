@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-<header th:replace="fragments/header :: ShopHeader"></header>
+<header th:replace="~{fragments/header :: ShopHeader(sum=${sum}, quantity=${quantity})}"></header>
 
 <div class="main-content">
     <div style="background-color: #f2f2f2; padding: 15px; width: 50%; display: flex; flex-direction: column; align-items: center;">
@@ -21,25 +21,25 @@
                 <th style="width: 30px;"></th>
             </tr>
 
-            <tr style="background-color: white;" th:each="basketItem : ${@basketImpl.basketItem}">
+            <tr style="background-color: white;" th:each="basketItem : ${basketItems}">
                 <td>
-                    <img style="width: 100%; height: auto;" th:src="@{${basketItem.itemWithSize.item.urlImage}}">
+                    <img style="width: 100%; height: auto;" th:src="@{${basketItem.item.urlImage}}">
                 </td>
-                <td th:text="${basketItem.itemWithSize.item.name}"></td>
+                <td th:text="${basketItem.item.name}"></td>
                 <td style="display: flex; padding-top: 10px; align-items: center; flex-wrap: wrap; justify-content: space-around;">
-                    <a style="text-decoration: none;"  th:href="@{'/sneaker-store/order/decrease/' + ${basketItem.itemWithSize.item.id} + '/' + ${basketItem.itemWithSize.size}}">-</a>
+                    <a style="text-decoration: none;"  th:href="@{'/sneaker-store/order/decrease/' + ${basketItem.item.id} + '/' + ${basketItem.size}}">-</a>
                     <p style="text-align: center;" th:text="${basketItem.counter}"></p>
-                    <a style="text-decoration: none;" th:href="@{'/sneaker-store/order/increase/' + ${basketItem.itemWithSize.item.id} + '/' + ${basketItem.itemWithSize.size}}">+</a>
+                    <a style="text-decoration: none;" th:href="@{'/sneaker-store/order/increase/' + ${basketItem.item.id} + '/' + ${basketItem.size}}">+</a>
                 </td>
                 <td th:text="${basketItem.price}"></td>
-                <td th:text="${basketItem.itemWithSize.size}"></td>
+                <td th:text="${basketItem.size}"></td>
                 <td>
-                    <a style="text-decoration: none;" class="mbtn" th:href="@{'/sneaker-store/order/remove/' + ${basketItem.itemWithSize.item.id} + '/' + ${basketItem.itemWithSize.size}}">X</a>
+                    <a style="text-decoration: none;" class="mbtn" th:href="@{'/sneaker-store/order/remove/' + ${basketItem.item.id} + '/' + ${basketItem.size}}">X</a>
                 </td>
             </tr>
         </table>
         <div>
-            <h3><span>Summary: </span><span th:text="${@basketImpl.sum}"></span>$</h3>
+            <h3><span>Summary: </span><span th:text="${sum}"></span>$</h3>
         </div>
         <a style="width: 50%;" th:href="@{/sneaker-store/order/summary}" class="add-btn">Checkout</a>
         <p th:if="${basketIsEmpty}" class="error-message" th:text="${basketIsEmpty}"></p>
