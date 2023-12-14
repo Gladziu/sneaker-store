@@ -6,11 +6,13 @@
   <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-<header th:replace="fragments/admin-header :: ShopHeaderAdmin"></header>
+<header th:replace="~{fragments/admin-header :: ShopHeaderAdmin}"></header>
 
 <div class="main-content">
     <div class="item-form">
+        <h2>Edit item</h2>
         <form class="edit-form" th:action="@{/admin/edit-item}" th:object="${item}" method="post">
+            <input type="hidden" name="_method" value="put" />
             <input type="hidden" th:field="*{id}" />
             <div class="form-row">
                 <label for="newPrice">New Price:</label>
@@ -31,8 +33,12 @@
         <h1 class="item-name" th:text="${item.name}"></h1>
         <img class="image-preview" th:src="@{${item.urlImage}}">
     </div>
-    <div>
-        <a th:href="@{'/admin/delete/' + ${item.id}}" class="remove-button">Remove item permanently</a>
+    <div class="remove-item">
+        <h2>Remove item</h2>
+        <form th:action="@{'/admin/delete/' + ${item.id}}" method="post">
+            <input type="hidden" name="_method" value="delete" />
+            <button type="submit" class="remove-button">Remove item permanently</button>
+        </form>
     </div>
 </div>
 </body>
