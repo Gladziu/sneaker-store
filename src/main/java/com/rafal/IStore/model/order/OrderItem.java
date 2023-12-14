@@ -1,11 +1,10 @@
 package com.rafal.IStore.model.order;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Entity
 @Getter
@@ -14,16 +13,20 @@ public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderItemId;
-    private Long orderId;
-    private Long itemId;
-    private int amount;
+    private Long id;
+    @ManyToOne
+    @JoinColumn(name = "order_history_id")
+    private OrderHistory orderHistory;
+    private String name;
+    private BigDecimal price;
+    private int quantity;
     private int size;
 
-    public OrderItem(Long orderId, Long itemId, int amount, int size) {
-        this.orderId = orderId;
-        this.itemId = itemId;
-        this.amount = amount;
+    public OrderItem(OrderHistory orderHistory, String name, BigDecimal price, int quantity, int size) {
+        this.orderHistory = orderHistory;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
         this.size = size;
     }
 }

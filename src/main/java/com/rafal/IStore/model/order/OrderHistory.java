@@ -1,7 +1,10 @@
 package com.rafal.IStore.model.order;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,12 +15,11 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "orders")
-public class Order {
+public class OrderHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    private Long id;
     private String firstName;
     private String lastName;
     private String address;
@@ -27,7 +29,6 @@ public class Order {
     private BigDecimal sum;
     private String email;
 
-    @OneToMany
-    @JoinColumn(name = "orderId")
-    private List<OrderItem> orderItems;
+    @OneToMany(mappedBy = "orderHistory", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItem;
 }

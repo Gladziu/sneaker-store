@@ -26,6 +26,7 @@
 
         <button th:href="@{/}" type="submit">Login</button>
     </form>
+    <p th:if="${param.error}" style="text-align: center; color: #f44336; margin-bottom: 10px">Incorrect email or password. Please try again.</p>
     <p style="text-align: center; color: #4CAF50">
         Don't have an account?
         <a th:href="@{/register}" class="register-btn">Register here</a>

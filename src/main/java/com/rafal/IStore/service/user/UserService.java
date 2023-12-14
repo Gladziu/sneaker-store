@@ -13,9 +13,9 @@ public interface UserService {
 
     User findUserByEmail(String email);
 
-    List<UserDto> findAllUsers();
+    List<User> findAllUsers();
 
-    boolean roleMatching(String roleName, String email);
+    boolean roleMatching(String roleName, User user);
 
     boolean isAdmin(Authentication authentication);
 
