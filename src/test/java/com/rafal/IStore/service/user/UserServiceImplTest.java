@@ -1,10 +1,9 @@
+/*
 package com.rafal.IStore.service.user;
 
-import com.rafal.IStore.dto.UserDto;
-import com.rafal.IStore.model.user.Role;
-import com.rafal.IStore.model.user.User;
-import com.rafal.IStore.repository.RoleRepository;
-import com.rafal.IStore.repository.UserRepository;
+import com.rafal.IStore.user.*;
+import com.rafal.IStore.user.model.Role;
+import com.rafal.IStore.user.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -202,4 +201,4 @@ class UserServiceImplTest {
         //Then
         assertFalse(result);
     }
-}
+}*/

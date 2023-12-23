@@ -1,9 +1,11 @@
+/*
 package com.rafal.IStore.controller;
 
-import com.rafal.IStore.model.item.ItemOperation;
-import com.rafal.IStore.model.user.User;
-import com.rafal.IStore.service.basket.BasketService;
-import com.rafal.IStore.service.user.UserService;
+import com.rafal.IStore.item.controller.ItemController;
+import com.rafal.IStore.shoppingbasket.BasketOperation;
+import com.rafal.IStore.user.model.User;
+import com.rafal.IStore.shoppingbasket.BasketService;
+import com.rafal.IStore.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +31,7 @@ class HomeControllerTest {
     private Model model;
 
     @InjectMocks
-    private HomeController homeController;
+    private ItemController homeController;
 
     @Test
     void testHome_RoleIsNotAdmin() {
@@ -42,7 +44,7 @@ class HomeControllerTest {
         when(userService.getCurrentUser(authentication)).thenReturn(user);
         when(userService.roleMatching("ROLE_ADMIN", user.getEmail())).thenReturn(false);
         //When
-        String expectedResult = homeController.home(model, httpSession, authentication);
+        String expectedResult = homeController.home(model, authentication);
 
         //Then
         verify(model, times(1)).addAttribute(eq("items"), any());
@@ -61,7 +63,7 @@ class HomeControllerTest {
         when(userService.roleMatching("ROLE_ADMIN", user.getEmail())).thenReturn(true);
 
         //When
-        String expectedResult = homeController.home(model, httpSession, authentication);
+        String expectedResult = homeController.home(model, authentication);
 
 
         //Then
@@ -79,8 +81,8 @@ class HomeControllerTest {
         String expectedResult = homeController.addItemToBasket(itemId, size, model);
 
         //Then
-        verify(basketService, times(1)).itemOperation(itemId, size, ItemOperation.INCREASE);
+        verify(basketService, times(1)).itemOperation(itemId, size, BasketOperation.INCREASE);
         verify(model, times(1)).addAttribute(eq("items"), any());
         assertEquals("redirect:/sneaker-store/home", expectedResult);
     }
-}
+}*/

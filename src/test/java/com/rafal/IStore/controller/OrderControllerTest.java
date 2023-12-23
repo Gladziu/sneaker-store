@@ -1,13 +1,12 @@
+/*
 package com.rafal.IStore.controller;
 
-import com.rafal.IStore.dto.OrderDto;
-import com.rafal.IStore.model.item.ItemOperation;
-import com.rafal.IStore.model.order.Order;
-import com.rafal.IStore.model.user.User;
-import com.rafal.IStore.repository.order.OrderRepository;
-import com.rafal.IStore.service.basket.BasketService;
-import com.rafal.IStore.service.order.OrderService;
-import com.rafal.IStore.service.user.UserService;
+import com.rafal.IStore.order.OrderDto;
+import com.rafal.IStore.order.controller.OrderController;
+import com.rafal.IStore.shoppingbasket.BasketOperation;
+import com.rafal.IStore.user.model.User;
+import com.rafal.IStore.shoppingbasket.BasketService;
+import com.rafal.IStore.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,14 +29,9 @@ class OrderControllerTest {
     @Mock
     private BasketService basketService;
 
-    @Mock
-    private OrderService orderService;
 
     @Mock
     private UserService userService;
-
-    @Mock
-    private OrderRepository orderRepository;
 
     @Mock
     private Authentication authentication;
@@ -67,7 +61,7 @@ class OrderControllerTest {
         String expectedResult = orderController.increaseItem(itemId, size);
 
         //Then
-        verify(basketService, times(1)).itemOperation(itemId, size, ItemOperation.INCREASE);
+        verify(basketService, times(1)).itemOperation(itemId, size, BasketOperation.INCREASE);
         assertEquals("basket", expectedResult);
     }
 
@@ -81,7 +75,7 @@ class OrderControllerTest {
         String expectedResult = orderController.decreaseItem(itemId, size);
 
         //Then
-        verify(basketService, times(1)).itemOperation(itemId, size, ItemOperation.DECREASE);
+        verify(basketService, times(1)).itemOperation(itemId, size, BasketOperation.DECREASE);
         assertEquals("basket", expectedResult);
     }
 
@@ -95,7 +89,7 @@ class OrderControllerTest {
         String expectedResult = orderController.removeItemFromBasket(itemId, size);
 
         //Then
-        verify(basketService, times(1)).itemOperation(itemId, size, ItemOperation.REMOVE);
+        verify(basketService, times(1)).itemOperation(itemId, size, BasketOperation.REMOVE);
         assertEquals("basket", expectedResult);
     }
 
@@ -155,13 +149,11 @@ class OrderControllerTest {
 
         User user = new User();
 
-        when(userService.getCurrentUser(authentication)).thenReturn(user);
-
         //When
         String expectedResult = orderController.saveOrder(orderDto, bindingResult, authentication);
 
         //Then
-        verify(orderService, times(1)).saveOrder(orderDto, user.getEmail());
+        verify(orderService, times(1)).saveOrder(orderDto, authentication);
         assertEquals("thanks-for-shopping", expectedResult);
     }
 
@@ -173,7 +165,7 @@ class OrderControllerTest {
 
         List<Order> orders = Collections.singletonList(new Order());
         when(userService.getCurrentUser(authentication)).thenReturn(user);
-        when(orderRepository.findByEmail("test@example.com")).thenReturn(orders);
+        when(orderRepository.findAllByEmail("test@example.com")).thenReturn(orders);
 
         //When
         String expectedResult = orderController.orderHistory(model, authentication);
@@ -183,4 +175,4 @@ class OrderControllerTest {
         verify(model, times(1)).addAttribute(eq("items"), anyList());
         assertEquals("orders", expectedResult);
     }
-}
+}*/

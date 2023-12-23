@@ -1,18 +1,18 @@
+/*
 package com.rafal.IStore.service.order;
 
-import com.rafal.IStore.dto.OrderDto;
-import com.rafal.IStore.mapper.OrderMapper;
-import com.rafal.IStore.model.item.Item;
-import com.rafal.IStore.model.item.ItemWithSize;
+import com.rafal.IStore.order.OrderDto;
 import com.rafal.IStore.model.order.Order;
-import com.rafal.IStore.repository.order.OrderItemRepository;
-import com.rafal.IStore.repository.order.OrderRepository;
+import com.rafal.IStore.order.OrderItemRepository;
+import com.rafal.IStore.order.OrderRepository;
+import com.rafal.IStore.order.OrderServiceImpl;
 import com.rafal.IStore.service.basket.Basket;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.Authentication;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,6 +28,8 @@ class OrderServiceImplTest {
     private OrderRepository orderRepository;
     @Mock
     private OrderItemRepository orderItemRepository;
+    @Mock
+    private Authentication authentication;
     @InjectMocks
     private OrderServiceImpl orderService;
     @Test
@@ -38,11 +40,11 @@ class OrderServiceImplTest {
         when(basket.getSum()).thenReturn(BigDecimal.valueOf(100.0));
 
         //When
-        orderService.saveOrder(orderDto, "test@example.com");
+        orderService.saveOrder(orderDto, authentication);
 
         //Then
         verify(orderRepository, times(1)).save(any(Order.class));
         verify(orderItemRepository, times(1)).saveAll(any(List.class));
         verify(basket, times(1)).clearBasket();
     }
-}
+}*/

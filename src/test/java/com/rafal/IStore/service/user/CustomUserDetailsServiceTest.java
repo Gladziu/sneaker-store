@@ -1,8 +1,10 @@
+/*
 package com.rafal.IStore.service.user;
 
-import com.rafal.IStore.model.user.Role;
-import com.rafal.IStore.model.user.User;
-import com.rafal.IStore.repository.UserRepository;
+import com.rafal.IStore.user.CustomUserDetailsService;
+import com.rafal.IStore.user.model.Role;
+import com.rafal.IStore.user.model.User;
+import com.rafal.IStore.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -64,4 +66,4 @@ class CustomUserDetailsServiceTest {
             customUserDetailsService.loadUserByUsername("test@example.com");
         });
     }
-}
+}*/

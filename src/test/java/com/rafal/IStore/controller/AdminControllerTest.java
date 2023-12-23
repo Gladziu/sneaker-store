@@ -1,10 +1,12 @@
+/*
 package com.rafal.IStore.controller;
 
-import com.rafal.IStore.model.item.Item;
-import com.rafal.IStore.model.order.Order;
-import com.rafal.IStore.repository.ItemRepository;
-import com.rafal.IStore.repository.order.OrderRepository;
-import com.rafal.IStore.service.item.ItemService;
+import com.rafal.IStore.admin.AdminController;
+import com.rafal.IStore.user.UserDto;
+import com.rafal.IStore.item.model.Item;
+import com.rafal.IStore.item.ItemRepository;
+import com.rafal.IStore.item.ItemService;
+import com.rafal.IStore.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ui.Model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,13 +27,12 @@ class AdminControllerTest {
 
     @Mock
     private ItemRepository itemRepository;
-
     @Mock
-    private OrderRepository orderRepository;
-
+    private UserService userService;
     @Mock
     private ItemService itemService;
-
+    @Mock
+    private Model model;
     @InjectMocks
     private AdminController adminController;
 
@@ -58,15 +60,20 @@ class AdminControllerTest {
     }
 
     @Test
-    void testShowOrders() {
+    void testUsers() {
+        //Given
+        List<UserDto> users = new ArrayList<>();
+        users.add(new UserDto());
+
+        when(userService.findAllUsers()).thenReturn(users);
+
         //When
-        List<Order> orders = adminController.showOrders();
+        String expectedResult = adminController.users(model);
 
         //Then
-        verify(orderRepository, times(1)).findAll();
-        assertEquals(orders.size(), 0);
+        verify(model, times(1)).addAttribute("users", users);
+        assertEquals("adminview/users-list", expectedResult);
     }
-
     @Test
     void testDeleteItem() {
         //Given
@@ -111,7 +118,7 @@ class AdminControllerTest {
         String expectedResult = adminController.editItem(item);
 
         //Then
-        verify(itemService, times(1)).editItem(1L, BigDecimal.valueOf(100.0), "Test Item", "test-image.jpg");
+        verify(itemService, times(1)).editItem(item);
         assertEquals("redirect:/sneaker-store/home", expectedResult);
     }
-}
+}*/

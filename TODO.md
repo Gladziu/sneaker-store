@@ -24,7 +24,14 @@ TODO:
 - nagrac film jak to dziala (pelne dzialanie strony oraz baza danych) DONE
   - template/message when the items were purchased DONE
 
-
+- gdy zostanie usuniety przedmiot w orders history jest null
 - Testy jednostkowe
+- Dodaj baze H2 aby robic testy jednostkowe
 
+- zrob jedno zadanie na hackerranku (daily)
+- przeanalizuj testy
+- sprawdz czy musisz tez pisac testy do innych klas
+- zacznij nowy projekt
+
+- przejrzec ogloszenia pracy, the:protocol, pracuj.pl dodane do ulub, (moze helpdesk ??)
 
