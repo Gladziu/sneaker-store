@@ -30,7 +30,6 @@ class BasketServiceImpl implements BasketService {
         if (!isSizeValid(size)) {
             return;
         }
-
         Optional<Item> optionalItem = itemRepository.findById(itemId);
         optionalItem.ifPresent(item -> processBasketOperation(item, size, basketOperation, authentication));
     }

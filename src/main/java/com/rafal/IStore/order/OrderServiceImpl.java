@@ -2,17 +2,15 @@ package com.rafal.IStore.order;
 
 import com.rafal.IStore.order.model.OrderHistory;
 import com.rafal.IStore.shoppingbasket.BasketInfoService;
-import com.rafal.IStore.shoppingbasket.model.BasketItem;
 import com.rafal.IStore.shoppingbasket.BasketItemService;
+import com.rafal.IStore.shoppingbasket.model.BasketItem;
 import com.rafal.IStore.user.UserDto;
-import com.rafal.IStore.user.model.User;
 import com.rafal.IStore.user.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 class OrderServiceImpl implements OrderService {
