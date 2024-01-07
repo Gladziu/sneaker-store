@@ -36,7 +36,7 @@ class RegistrationServiceTest {
     private RegistrationService registrationService;
 
     @Test
-    void processRegistration_EmailDuplicationValidationFails_ReturnsRegisterPage() {
+    void processRegistration_ValidationFails_ReturnsRegisterPage() {
         // given
         when(bindingResult.hasErrors()).thenReturn(true);
 
@@ -45,12 +45,13 @@ class RegistrationServiceTest {
 
         // then
         verify(registrationValidator, times(1)).emailDuplicationValidation(userReceiverDto, bindingResult);
+        verify(registrationValidator, times(1)).passwordStrengthValidation(userReceiverDto, bindingResult);
         verify(model, times(1)).addAttribute(eq("user"), any(UserReceiverDto.class));
         assertThat(result).isEqualTo("/user/register");
     }
 
     @Test
-    void processRegistration_EmailDuplicationValidationPasses_SaveUserAndRedirectToLoginPage() {
+    void processRegistration_ValidationPasses_SaveUserAndRedirectToLoginPage() {
         // given
         when(bindingResult.hasErrors()).thenReturn(false);
 
@@ -59,7 +60,8 @@ class RegistrationServiceTest {
 
         // then
         verify(registrationValidator, times(1)).emailDuplicationValidation(userReceiverDto, bindingResult);
-        verify(userService, times(1)).saveUser(userReceiverDto);
+        verify(registrationValidator, times(1)).passwordStrengthValidation(userReceiverDto, bindingResult);
+        verify(userService, times(1)).saveUserBasedOnRole(userReceiverDto);
         assertThat(result).isEqualTo("redirect:/login");
     }
 }

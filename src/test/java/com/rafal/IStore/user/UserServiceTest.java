@@ -32,7 +32,7 @@ class UserServiceTest {
     private UserServiceImpl userService;
 
     @Test
-    void saveUser_shouldSaveUser() {
+    void saveUserBasedOnRole_shouldSaveUser_ExistingRole() {
         //given
         UserReceiverDto userReceiverDto = UserReceiverDto.builder()
                 .firstName("bob")
@@ -48,7 +48,50 @@ class UserServiceTest {
         when(passwordEncoder.encode("password")).thenReturn("encodedPassword");
 
         //when
-        userService.saveUser(userReceiverDto);
+        userService.saveUserBasedOnRole(userReceiverDto);
+
+        //then
+        verify(userRepository, times(1)).save(any(User.class));
+    }
+
+    @Test
+    void saveUserBasedOnRole_shouldSaveUser_NonExistingRole() {
+        //given
+        UserReceiverDto userReceiverDto = UserReceiverDto.builder()
+                .firstName("bob")
+                .lastName("smith")
+                .email("bob@example.com")
+                .password("password")
+                .build();
+
+        when(roleRepository.findByName("ROLE_USER")).thenReturn(null);
+        when(passwordEncoder.encode("password")).thenReturn("encodedPassword");
+
+        //when
+        userService.saveUserBasedOnRole(userReceiverDto);
+
+        //then
+        verify(userRepository, times(1)).save(any(User.class));
+    }
+
+    @Test
+    void saveUserBasedOnRole_shouldSaveAdmin() {
+        //given
+        UserReceiverDto userReceiverDto = UserReceiverDto.builder()
+                .firstName("admin")
+                .lastName("admin")
+                .email("admin@admin.com")
+                .password("password")
+                .build();
+
+        Role role = new Role();
+        role.setName("ROLE_ADMIN");
+
+        when(roleRepository.findByName("ROLE_ADMIN")).thenReturn(role);
+        when(passwordEncoder.encode("password")).thenReturn("encodedPassword");
+
+        //when
+        userService.saveUserBasedOnRole(userReceiverDto);
 
         //then
         verify(userRepository, times(1)).save(any(User.class));

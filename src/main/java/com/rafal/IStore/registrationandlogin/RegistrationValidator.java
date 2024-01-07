@@ -22,4 +22,11 @@ class RegistrationValidator {
         }
     }
 
+    public void passwordStrengthValidation(UserReceiverDto userReceiverDto, BindingResult bindingResult) {
+        if (userReceiverDto.getPassword().length() < 9) {
+            bindingResult.rejectValue("password", String.valueOf(HttpStatus.CONFLICT),
+                    "Password must be at least 9 characters long");
+        }
+    }
+
 }

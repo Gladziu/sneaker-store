@@ -19,14 +19,13 @@ class RegistrationService {
 
 
     public String processRegistration(UserReceiverDto userReceiverDto, BindingResult bindingResult, Model model) {
+        registrationValidator.passwordStrengthValidation(userReceiverDto, bindingResult);
         registrationValidator.emailDuplicationValidation(userReceiverDto, bindingResult);
-
         if (bindingResult.hasErrors()) {
             model.addAttribute("user", userReceiverDto);
             return "/user/register";
         }
-
-        userService.saveUser(userReceiverDto);
+        userService.saveUserBasedOnRole(userReceiverDto);
         return "redirect:/login";
     }
 }

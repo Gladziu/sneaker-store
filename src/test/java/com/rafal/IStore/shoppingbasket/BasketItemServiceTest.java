@@ -60,7 +60,7 @@ class BasketItemServiceTest {
     }
 
     @Test
-    void addItem_AddExistingItem() {
+    void addItem_AddExistingItem_ValidQuantity() {
         //given
         Item item = new Item();
         item.setId(1L);
@@ -73,6 +73,7 @@ class BasketItemServiceTest {
         BasketItem basketItem = BasketItem.builder()
                 .id(UUID.randomUUID())
                 .size(size)
+                .counter(2)
                 .item(item)
                 .build();
 
@@ -86,6 +87,36 @@ class BasketItemServiceTest {
         //then
         verify(basketRepository, times(1)).save(any(BasketItem.class));
         verify(basketInfoService, times(1)).addItemDetails(itemWithSize.getItem().getPrice(), userId);
+    }
+
+    @Test
+    void addItem_AddExistingItem_QuantityLimitValue() {
+        //given
+        Item item = new Item();
+        item.setId(1L);
+        item.setName("Product A");
+        item.setPrice(BigDecimal.valueOf(100));
+
+        int size = 42;
+        ItemWithSize itemWithSize = new ItemWithSize(item, size);
+
+        BasketItem basketItem = BasketItem.builder()
+                .id(UUID.randomUUID())
+                .size(size)
+                .counter(10)
+                .item(item)
+                .build();
+
+
+        when(basketRepository.findByUserIdAndItemAndSize(userId, itemWithSize.getItem(), itemWithSize.getSize()))
+                .thenReturn(basketItem);
+
+        //when
+        basketItemService.addItem(itemWithSize, userId);
+
+        //then
+        verify(basketRepository, never()).save(any(BasketItem.class));
+        verify(basketInfoService, never()).addItemDetails(itemWithSize.getItem().getPrice(), userId);
     }
 
     @Test

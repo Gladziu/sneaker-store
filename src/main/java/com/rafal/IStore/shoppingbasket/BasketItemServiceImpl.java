@@ -5,8 +5,8 @@ import com.rafal.IStore.item.model.ItemWithSize;
 import com.rafal.IStore.shoppingbasket.model.BasketItem;
 import com.rafal.IStore.user.UserDto;
 import com.rafal.IStore.user.UserRepository;
-import com.rafal.IStore.user.model.User;
 import com.rafal.IStore.user.UserService;
+import com.rafal.IStore.user.model.User;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -22,6 +22,7 @@ class BasketItemServiceImpl implements BasketItemService {
     private static final int ONE_ITEM_IN_BASKET = 1;
     private static final int INCREASE_COUNTER_BY_ONE = 1;
     private static final int DECREASE_COUNTER_BY_ONE = -1;
+    private static final int MAX_QUANTITY_OF_ONE_TYPE = 10;
     private final BasketRepository basketRepository;
     private final BasketInfoService basketInfoService;
     private final UserService userService;
@@ -38,12 +39,19 @@ class BasketItemServiceImpl implements BasketItemService {
     public void addItem(ItemWithSize itemWithSize, UUID userId) {
         BasketItem basketItem = getItemInBasket(userId, itemWithSize);
         if (basketItem != null) {
+            if (!isBasketItemQuantityValid(basketItem)) {
+                return;
+            }
             updateBasket(basketItem, INCREASE_COUNTER_BY_ONE);
         } else {
             BasketItem newItemInBasket = createBasketItem(itemWithSize, userId);
             basketRepository.save(newItemInBasket);
         }
         addItemToBasketInfo(itemWithSize, userId);
+    }
+
+    private boolean isBasketItemQuantityValid(BasketItem basketItem) {
+        return basketItem.getCounter() < MAX_QUANTITY_OF_ONE_TYPE;
     }
 
     private void addItemToBasketInfo(ItemWithSize itemWithSize, UUID userId) {
@@ -126,7 +134,7 @@ class BasketItemServiceImpl implements BasketItemService {
         int size = itemWithSize.getSize();
         Item item = itemWithSize.getItem();
         Optional<User> user = userRepository.findById(userId);
-        if(user.isPresent()) {
+        if (user.isPresent()) {
             return BasketItem.builder()
                     .size(size)
                     .counter(DEFAULT_ITEM_COUNT)

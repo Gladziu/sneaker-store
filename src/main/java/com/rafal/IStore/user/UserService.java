@@ -5,7 +5,7 @@ import org.springframework.security.core.Authentication;
 import java.util.List;
 
 public interface UserService {
-    void saveUser(UserReceiverDto userReceiverDto);
+    void saveUserBasedOnRole(UserReceiverDto userReceiverDto);
 
     UserDto getCurrentUser(Authentication authentication);
 
