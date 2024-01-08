@@ -1,6 +1,7 @@
 package com.rafal.IStore.shoppingbasket;
 
 import com.rafal.IStore.shoppingbasket.model.BasketInfo;
+import com.rafal.IStore.shoppingbasket.model.BasketItem;
 import com.rafal.IStore.user.UserDto;
 import com.rafal.IStore.user.UserRepository;
 import com.rafal.IStore.user.UserService;
@@ -10,48 +11,65 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 class BasketInfoServiceImpl implements BasketInfoService {
-    private static final int INCREASE_QUANTITY_BY_ONE = 1;
-    private static final int DECREASE_QUANTITY_BY_ONE = -1;
+    private static final int FIRST_ITEM_IN_BASKET = 1;
     private static final int ZERO_ITEMS_IN_BASKET = 0;
     private static final BigDecimal BASKET_VALUE_OF_ZERO = BigDecimal.ZERO;
     private final BasketInfoRepository basketInfoRepository;
+    private final BasketRepository basketRepository;
     private final UserService userService;
     private final UserRepository userRepository;
 
-    public BasketInfoServiceImpl(BasketInfoRepository basketInfoRepository, UserService userService, UserRepository userRepository) {
+    public BasketInfoServiceImpl(BasketInfoRepository basketInfoRepository, BasketRepository basketRepository, UserService userService, UserRepository userRepository) {
         this.basketInfoRepository = basketInfoRepository;
+        this.basketRepository = basketRepository;
         this.userService = userService;
         this.userRepository = userRepository;
     }
 
     @Override
-    public void addItemDetails(BigDecimal price, UUID userId) {
+    public void updateBasketInfo(UUID userId) {
+        List<BasketItem> basketItems = basketRepository.findAllByUserId(userId);
+
+        BigDecimal priceSum = basketItems.stream()
+                .map(BasketItem::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        int quantitySum = basketItems.stream()
+                .mapToInt(BasketItem::getCounter)
+                .sum();
+
         BasketInfo basketInfo = getBasketInfoByUserId(userId);
         if (basketInfo != null) {
-            updateBasketInfo(basketInfo, price, INCREASE_QUANTITY_BY_ONE);
+            updateExistingBasketInfo(basketInfo, quantitySum, priceSum);
         } else {
-            createNewBasketInfo(price, userId);
+            createNewBasketInfo(priceSum, userId);
         }
     }
 
-    @Override
-    public void removeItemDetails(BigDecimal price, UUID userId) {
-        BasketInfo basketInfo = getBasketInfoByUserId(userId);
-        if (basketInfo != null) {
-            updateBasketInfo(basketInfo, price, DECREASE_QUANTITY_BY_ONE);
+    private void updateExistingBasketInfo(BasketInfo basketInfo, int quantitySum, BigDecimal priceSum) {
+        if (quantitySum <= 0) {
+            basketInfoRepository.delete(basketInfo);
+        } else {
+            basketInfo.setQuantity(quantitySum);
+            basketInfo.setSum(priceSum);
+            basketInfoRepository.save(basketInfo);
         }
     }
 
-    @Override
-    public void removeAllSameItemsDetails(int quantity, BigDecimal price, UUID userId) {
-        BasketInfo basketInfo = getBasketInfoByUserId(userId);
-        if (basketInfo != null) {
-            updateBasketInfo(basketInfo, price, -quantity);
+    private void createNewBasketInfo(BigDecimal price, UUID userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            BasketInfo newItemInformation = new BasketInfo();
+            newItemInformation.setUser(user.get());
+            newItemInformation.setSum(price);
+            newItemInformation.setQuantity(FIRST_ITEM_IN_BASKET);
+            basketInfoRepository.save(newItemInformation);
         }
     }
 
@@ -92,29 +110,5 @@ class BasketInfoServiceImpl implements BasketInfoService {
 
     private BasketInfo getBasketInfoByUserId(UUID userId) {
         return basketInfoRepository.findByUserId(userId);
-    }
-
-    private void updateBasketInfo(BasketInfo basketInfo, BigDecimal price, int quantityChange) {
-        int updatedQuantity = basketInfo.getQuantity() + quantityChange;
-        if (updatedQuantity > 0) {
-            basketInfo.setQuantity(updatedQuantity);
-            BigDecimal sumOfItem = price.multiply(BigDecimal.valueOf(quantityChange));
-            basketInfo.setSum(basketInfo.getSum().add(sumOfItem));
-            basketInfoRepository.save(basketInfo);
-        } else {
-            basketInfoRepository.delete(basketInfo);
-        }
-    }
-
-    private void createNewBasketInfo(BigDecimal price, UUID userId) {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isPresent()) {
-            BasketInfo newItemInformation = new BasketInfo();
-            newItemInformation.setUser(user.get());
-            newItemInformation.setSum(price);
-            newItemInformation.setQuantity(1);
-            basketInfoRepository.save(newItemInformation);
-        }
-
     }
 }

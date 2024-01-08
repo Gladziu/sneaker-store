@@ -57,24 +57,25 @@ class BasketRepositoryTest {
     }
 
     @Test
-    void findByUserIdAndItemAndSize_ExistingBasketItem_ReturnsBasketItem() {
+    void findAllByUserIdAndItemAndSize_ExistingBasketItem_ReturnsBasketItems() {
         //given
         String itemName = "Sample Item";
         String email = "bob@example.com";
         int size = 42;
 
         //when
-        BasketItem result = basketRepository.findByUserIdAndItemAndSize(userId, item, size);
+        List<BasketItem> result = basketRepository.findAllByUserIdAndItemAndSize(userId, item, size);
 
         //then
-        assertThat(result).isNotNull();
-        assertThat(result.getSize()).isEqualTo(size);
-        assertThat(result.getUser().getEmail()).isEqualTo(email);
-        assertThat(result.getItem().getName()).isEqualTo(itemName);
+        assertThat(result).isNotEmpty();
+        assertThat(result.size()).isEqualTo(1);
+        assertThat(result.get(0).getSize()).isEqualTo(size);
+        assertThat(result.get(0).getUser().getEmail()).isEqualTo(email);
+        assertThat(result.get(0).getItem().getName()).isEqualTo(itemName);
     }
 
     @Test
-    void findByUserIdAndItemAndSize_NonExistingBasketItem() {
+    void findAllByUserIdAndItemAndSize_NonExistingBasketItems() {
         //given
         Item item2 = new Item();
         item2.setName("Sample Item 2");
@@ -82,10 +83,10 @@ class BasketRepositoryTest {
         int size = 42;
 
         //when
-        BasketItem result = basketRepository.findByUserIdAndItemAndSize(userId, item2, size);
+        List<BasketItem> result = basketRepository.findAllByUserIdAndItemAndSize(userId, item2, size);
 
         //then
-        assertThat(result).isNull();
+        assertThat(result).isEmpty();
     }
 
     @Test

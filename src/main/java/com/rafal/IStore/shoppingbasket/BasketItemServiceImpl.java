@@ -18,7 +18,6 @@ import java.util.UUID;
 
 @Service
 class BasketItemServiceImpl implements BasketItemService {
-    private static final int DEFAULT_ITEM_COUNT = 1;
     private static final int ONE_ITEM_IN_BASKET = 1;
     private static final int INCREASE_COUNTER_BY_ONE = 1;
     private static final int DECREASE_COUNTER_BY_ONE = -1;
@@ -38,25 +37,15 @@ class BasketItemServiceImpl implements BasketItemService {
     @Override
     public void addItem(ItemWithSize itemWithSize, UUID userId) {
         BasketItem basketItem = getItemInBasket(userId, itemWithSize);
-        if (basketItem != null) {
-            if (!isBasketItemQuantityValid(basketItem)) {
-                return;
-            }
+        if (basketItem == null) {
+            createBasketItem(itemWithSize, userId);
+        } else if (isBasketItemQuantityValid(basketItem)) {
             updateBasket(basketItem, INCREASE_COUNTER_BY_ONE);
-        } else {
-            BasketItem newItemInBasket = createBasketItem(itemWithSize, userId);
-            basketRepository.save(newItemInBasket);
         }
-        addItemToBasketInfo(itemWithSize, userId);
     }
 
     private boolean isBasketItemQuantityValid(BasketItem basketItem) {
         return basketItem.getCounter() < MAX_QUANTITY_OF_ONE_TYPE;
-    }
-
-    private void addItemToBasketInfo(ItemWithSize itemWithSize, UUID userId) {
-        BigDecimal price = itemWithSize.getItem().getPrice();
-        basketInfoService.addItemDetails(price, userId);
     }
 
     @Override
@@ -70,43 +59,31 @@ class BasketItemServiceImpl implements BasketItemService {
                 basketRepository.delete(basketItem);
             }
         }
-        removeItemFromBasketInfo(itemWithSize, userId);
-    }
-
-    private void removeItemFromBasketInfo(ItemWithSize itemWithSize, UUID userId) {
-        BigDecimal price = itemWithSize.getItem().getPrice();
-        basketInfoService.removeItemDetails(price, userId);
     }
 
     @Override
-    public void removeAllTheSameItems(ItemWithSize itemWithSize, UUID userId) {
+    public void removeAllIdenticalItems(ItemWithSize itemWithSize, UUID userId) {
         BasketItem basketItem = getItemInBasket(userId, itemWithSize);
         if (basketItem != null) {
-            int counter = basketItem.getCounter();
             basketRepository.delete(basketItem);
-            removeAllSameItemsFromBasketInfo(itemWithSize, userId, counter);
         }
-    }
-
-    private void removeAllSameItemsFromBasketInfo(ItemWithSize itemWithSize, UUID userId, int counter) {
-        BigDecimal price = itemWithSize.getItem().getPrice();
-        basketInfoService.removeAllSameItemsDetails(counter, price, userId);
     }
 
     @Transactional
     @Override
     public void clearBasket(UUID userId) {
-        basketInfoService.clearBasketInfo(userId);
         basketRepository.deleteAllByUserId(userId);
+        basketInfoService.clearBasketInfo(userId);
     }
 
     @Override
-    public void deleteBasketItems(Item item) {
+    public void removeItemFromEachBasket(Item item) {
         List<BasketItem> basketItems = basketRepository.findAllByItem(item);
         if (!basketItems.isEmpty()) {
             for (BasketItem basketItem : basketItems) {
-                basketInfoService.removeAllSameItemsDetails(basketItem.getCounter(), basketItem.getItem().getPrice(), basketItem.getUser().getId());
+                UUID userId = basketItem.getUser().getId();
                 basketRepository.delete(basketItem);
+                basketInfoService.updateBasketInfo(userId);
             }
         }
     }
@@ -121,31 +98,34 @@ class BasketItemServiceImpl implements BasketItemService {
         int updatedCounter = basketItem.getCounter() + counterChange;
         BigDecimal price = basketItem.getItem().getPrice();
         BigDecimal updatedPrice = price.multiply(BigDecimal.valueOf(updatedCounter));
+
         basketItem.setCounter(updatedCounter);
         basketItem.setPrice(updatedPrice);
         basketRepository.save(basketItem);
     }
 
     private BasketItem getItemInBasket(UUID userId, ItemWithSize itemWithSize) {
-        return basketRepository.findByUserIdAndItemAndSize(userId, itemWithSize.getItem(), itemWithSize.getSize());
+        List<BasketItem> basketItems = basketRepository.findAllByUserIdAndItemAndSize(userId, itemWithSize.getItem(), itemWithSize.getSize());
+        if (!basketItems.isEmpty()) {
+            return basketItems.get(0);
+        }
+        return null;
     }
 
-    private BasketItem createBasketItem(ItemWithSize itemWithSize, UUID userId) {
+    private void createBasketItem(ItemWithSize itemWithSize, UUID userId) {
         int size = itemWithSize.getSize();
         Item item = itemWithSize.getItem();
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
-            return BasketItem.builder()
+            BasketItem newItemInBasket = BasketItem.builder()
                     .size(size)
-                    .counter(DEFAULT_ITEM_COUNT)
+                    .counter(ONE_ITEM_IN_BASKET)
                     .price(item.getPrice())
                     .item(item)
                     .user(user.get())
                     .build();
-        } else {
-            return new BasketItem();
+            basketRepository.save(newItemInBasket);
         }
-
     }
 
 }

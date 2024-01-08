@@ -37,7 +37,7 @@ class AdminServiceTest {
         adminService.deleteItem(itemId);
 
         // Then
-        verify(basketItemService, times(1)).deleteBasketItems(item);
+        verify(basketItemService, times(1)).removeItemFromEachBasket(item);
         verify(itemRepository, times(1)).deleteById(itemId);
     }
 
@@ -51,7 +51,7 @@ class AdminServiceTest {
         adminService.editItem(item);
 
         // Then
-        verify(basketItemService, times(1)).deleteBasketItems(item);
+        verify(basketItemService, times(1)).removeItemFromEachBasket(item);
         verify(itemRepository, times(1)).save(item);
     }
 

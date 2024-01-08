@@ -1,9 +1,9 @@
 package com.rafal.IStore.shoppingbasket;
 
+import com.rafal.IStore.item.ItemRepository;
 import com.rafal.IStore.item.model.Item;
 import com.rafal.IStore.item.model.ItemWithSize;
 import com.rafal.IStore.user.UserDto;
-import com.rafal.IStore.item.ItemRepository;
 import com.rafal.IStore.user.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -17,11 +17,13 @@ class BasketServiceImpl implements BasketService {
     private final static int MIN_SIZE = 35;
     private final ItemRepository itemRepository;
     private final BasketItemService basketItemService;
+    private final BasketInfoService basketInfoService;
     private final UserService userService;
 
-    public BasketServiceImpl(ItemRepository itemRepository, BasketItemService basketItemService, UserService userService) {
+    public BasketServiceImpl(ItemRepository itemRepository, BasketItemService basketItemService, BasketInfoService basketInfoService, UserService userService) {
         this.itemRepository = itemRepository;
         this.basketItemService = basketItemService;
+        this.basketInfoService = basketInfoService;
         this.userService = userService;
     }
 
@@ -46,8 +48,10 @@ class BasketServiceImpl implements BasketService {
             basketItemService.removeItem(itemWithSize, currentUserId);
         }
         if (BasketOperation.REMOVE == basketOperation) {
-            basketItemService.removeAllTheSameItems(itemWithSize, currentUserId);
+            basketItemService.removeAllIdenticalItems(itemWithSize, currentUserId);
         }
+
+        basketInfoService.updateBasketInfo(currentUserId);
     }
 
     private boolean isSizeValid(int size) {

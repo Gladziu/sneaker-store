@@ -48,15 +48,15 @@ class BasketItemServiceTest {
         int size = 42;
         ItemWithSize itemWithSize = new ItemWithSize(new Item(), size);
 
-        when(basketRepository.findByUserIdAndItemAndSize(userId, itemWithSize.getItem(), itemWithSize.getSize()))
-                .thenReturn(null);
+        when(basketRepository.findAllByUserIdAndItemAndSize(userId, itemWithSize.getItem(), itemWithSize.getSize()))
+                .thenReturn(Collections.emptyList());
         when(userRepository.findById(userId)).thenReturn(Optional.of(new User()));
+
         //when
         basketItemService.addItem(itemWithSize, userId);
 
         //then
         verify(basketRepository, times(1)).save(any(BasketItem.class));
-        verify(basketInfoService, times(1)).addItemDetails(itemWithSize.getItem().getPrice(), userId);
     }
 
     @Test
@@ -78,15 +78,14 @@ class BasketItemServiceTest {
                 .build();
 
 
-        when(basketRepository.findByUserIdAndItemAndSize(userId, itemWithSize.getItem(), itemWithSize.getSize()))
-                .thenReturn(basketItem);
+        when(basketRepository.findAllByUserIdAndItemAndSize(userId, itemWithSize.getItem(), itemWithSize.getSize()))
+                .thenReturn(List.of(basketItem));
 
         //when
         basketItemService.addItem(itemWithSize, userId);
 
         //then
         verify(basketRepository, times(1)).save(any(BasketItem.class));
-        verify(basketInfoService, times(1)).addItemDetails(itemWithSize.getItem().getPrice(), userId);
     }
 
     @Test
@@ -108,15 +107,14 @@ class BasketItemServiceTest {
                 .build();
 
 
-        when(basketRepository.findByUserIdAndItemAndSize(userId, itemWithSize.getItem(), itemWithSize.getSize()))
-                .thenReturn(basketItem);
+        when(basketRepository.findAllByUserIdAndItemAndSize(userId, itemWithSize.getItem(), itemWithSize.getSize()))
+                .thenReturn(List.of(basketItem));
 
         //when
         basketItemService.addItem(itemWithSize, userId);
 
         //then
         verify(basketRepository, never()).save(any(BasketItem.class));
-        verify(basketInfoService, never()).addItemDetails(itemWithSize.getItem().getPrice(), userId);
     }
 
     @Test
@@ -137,15 +135,14 @@ class BasketItemServiceTest {
                 .item(item)
                 .build();
 
-        when(basketRepository.findByUserIdAndItemAndSize(userId, itemWithSize.getItem(), itemWithSize.getSize()))
-                .thenReturn(basketItem);
+        when(basketRepository.findAllByUserIdAndItemAndSize(userId, itemWithSize.getItem(), itemWithSize.getSize()))
+                .thenReturn(List.of(basketItem));
 
         //when
         basketItemService.removeItem(itemWithSize, userId);
 
         //then
         verify(basketRepository, times(1)).save(any(BasketItem.class));
-        verify(basketInfoService, times(1)).removeItemDetails(itemWithSize.getItem().getPrice(), userId);
     }
 
     @Test
@@ -156,34 +153,32 @@ class BasketItemServiceTest {
         BasketItem basketItem = new BasketItem();
         basketItem.setCounter(1);
 
-        when(basketRepository.findByUserIdAndItemAndSize(userId, itemWithSize.getItem(), itemWithSize.getSize()))
-                .thenReturn(basketItem);
+        when(basketRepository.findAllByUserIdAndItemAndSize(userId, itemWithSize.getItem(), itemWithSize.getSize()))
+                .thenReturn(List.of(basketItem));
 
         //when
         basketItemService.removeItem(itemWithSize, userId);
 
         //then
         verify(basketRepository, times(1)).delete(basketItem);
-        verify(basketInfoService, times(1)).removeItemDetails(itemWithSize.getItem().getPrice(), userId);
     }
 
     @Test
-    void removeAllTheSameItems_ItemExistsInBasket() {
+    void removeAllIdenticalItems_ItemExistsInBasket() {
         //given
         int size = 42;
         ItemWithSize itemWithSize = new ItemWithSize(new Item(), size);
         BasketItem basketItem = new BasketItem();
         basketItem.setCounter(1);
 
-        when(basketRepository.findByUserIdAndItemAndSize(userId, itemWithSize.getItem(), itemWithSize.getSize())).
-                thenReturn(basketItem);
+        when(basketRepository.findAllByUserIdAndItemAndSize(userId, itemWithSize.getItem(), itemWithSize.getSize())).
+                thenReturn(List.of(basketItem));
 
         //when
-        basketItemService.removeAllTheSameItems(itemWithSize, userId);
+        basketItemService.removeAllIdenticalItems(itemWithSize, userId);
 
         //then
         verify(basketRepository, times(1)).delete(basketItem);
-        verify(basketInfoService, times(1)).removeAllSameItemsDetails(1, itemWithSize.getItem().getPrice(), userId);
     }
 
     @Test
@@ -194,12 +189,12 @@ class BasketItemServiceTest {
         basketItemService.clearBasket(userId);
 
         //then
-        verify(basketInfoService).clearBasketInfo(userId);
         verify(basketRepository).deleteAllByUserId(userId);
+        verify(basketInfoService).clearBasketInfo(userId);
     }
 
     @Test
-    void deleteBasketItems_ItemsExistInBasket() {
+    void removeItemFromEachBasket_ItemsExistInBasket() {
         //given
         Item item = new Item();
         item.setId(1L);
@@ -231,15 +226,14 @@ class BasketItemServiceTest {
         when(basketRepository.findAllByItem(eq(item))).thenReturn(basketItems);
 
         //when
-        basketItemService.deleteBasketItems(item);
+        basketItemService.removeItemFromEachBasket(item);
 
         //then
-        verify(basketInfoService, times(2)).removeAllSameItemsDetails(anyInt(), any(BigDecimal.class), any(UUID.class));
         verify(basketRepository, times(2)).delete(any(BasketItem.class));
     }
 
     @Test
-    void deleteBasketItems_NoItemsInBasket() {
+    void removeItemFromEachBasket_NoItemsInBasket() {
         // given
         Item item = new Item();
         item.setId(1L);
@@ -247,11 +241,9 @@ class BasketItemServiceTest {
         when(basketRepository.findAllByItem(eq(item))).thenReturn(Collections.emptyList());
 
         // when
-        basketItemService.deleteBasketItems(item);
+        basketItemService.removeItemFromEachBasket(item);
 
         // then
-        verify(basketInfoService, never()).removeAllSameItemsDetails(anyInt(), any(BigDecimal.class), any(UUID.class));
-        ;
         verify(basketRepository, never()).delete(any(BasketItem.class));
     }
 

@@ -3,7 +3,6 @@ package com.rafal.IStore.shoppingbasket;
 import com.rafal.IStore.item.model.Item;
 import com.rafal.IStore.item.model.ItemWithSize;
 import com.rafal.IStore.shoppingbasket.model.BasketItem;
-import com.rafal.IStore.user.UserDto;
 import org.springframework.security.core.Authentication;
 
 import java.util.List;
@@ -14,11 +13,11 @@ public interface BasketItemService {
 
     void removeItem(ItemWithSize itemWithSize, UUID userId);
 
-    void removeAllTheSameItems(ItemWithSize itemWithSize, UUID userId);
+    void removeAllIdenticalItems(ItemWithSize itemWithSize, UUID userId);
 
     void clearBasket(UUID userId);
 
-    void deleteBasketItems(Item item);
+    void removeItemFromEachBasket(Item item);
 
     List<BasketItem> getBasketItems(Authentication authentication);
 }

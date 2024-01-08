@@ -1,6 +1,7 @@
 package com.rafal.IStore.shoppingbasket;
 
 import com.rafal.IStore.shoppingbasket.model.BasketInfo;
+import com.rafal.IStore.shoppingbasket.model.BasketItem;
 import com.rafal.IStore.user.UserDto;
 import com.rafal.IStore.user.UserRepository;
 import com.rafal.IStore.user.UserService;
@@ -13,6 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,13 +26,12 @@ import static org.mockito.Mockito.*;
 class BasketInfoServiceTest {
     @Mock
     private BasketInfoRepository basketInfoRepository;
-
     @Mock
     private UserService userService;
-
     @Mock
     private UserRepository userRepository;
-
+    @Mock
+    private BasketRepository basketRepository;
     @Mock
     private Authentication authentication;
 
@@ -39,90 +41,64 @@ class BasketInfoServiceTest {
     private final BigDecimal itemPrice = BigDecimal.TEN;
 
     @Test
-    void addItemDetails_BasketExists_UpdateBasketInfo() {
+    void updateBasketInfo_ExistingBasketInfo() {
         //given
-        BasketInfo basketInfo = new BasketInfo();
-        basketInfo.setQuantity(1);
-        basketInfo.setSum(BigDecimal.TEN);
+        BasketItem basketItem1 = BasketItem.builder()
+                .price(BigDecimal.valueOf(100.99))
+                .counter(1)
+                .build();
 
+        BasketItem basketItem2 = BasketItem.builder()
+                .price(BigDecimal.valueOf(150.49))
+                .counter(3)
+                .build();
+        BasketInfo basketInfo = new BasketInfo();
+        when(basketRepository.findAllByUserId(userId)).thenReturn(List.of(basketItem1, basketItem2));
         when(basketInfoRepository.findByUserId(userId)).thenReturn(basketInfo);
 
         //when
-        basketInfoService.addItemDetails(itemPrice, userId);
+        basketInfoService.updateBasketInfo(userId);
 
         //then
         verify(basketInfoRepository, times(1)).save(basketInfo);
     }
 
     @Test
-    void addItemDetails_BasketNotExists_CreateNewBasketInfo() {
+    void updateBasketInfo_NonExistingBasketInfo() {
         //given
+        BasketItem basketItem1 = BasketItem.builder()
+                .price(BigDecimal.valueOf(100.99))
+                .counter(1)
+                .build();
+
+        BasketItem basketItem2 = BasketItem.builder()
+                .price(BigDecimal.valueOf(150.49))
+                .counter(3)
+                .build();
+
+        when(basketRepository.findAllByUserId(userId)).thenReturn(List.of(basketItem1, basketItem2));
         when(basketInfoRepository.findByUserId(userId)).thenReturn(null);
         when(userRepository.findById(userId)).thenReturn(Optional.of(new User()));
+
         //when
-        basketInfoService.addItemDetails(itemPrice, userId);
+        basketInfoService.updateBasketInfo(userId);
 
         //then
-        verify(basketInfoRepository, times(1)).save(any());
+        verify(basketInfoRepository, times(1)).save(any(BasketInfo.class));
     }
 
     @Test
-    void removeItemDetails_BasketExists_UpdateBasketInfo() {
+    void updateBasketInfo_ExistingBasketInfo_EmptyBasket() {
         //given
         BasketInfo basketInfo = new BasketInfo();
-        basketInfo.setQuantity(2);
-        basketInfo.setSum(new BigDecimal("20"));
-
+        when(basketRepository.findAllByUserId(userId)).thenReturn(Collections.emptyList());
         when(basketInfoRepository.findByUserId(userId)).thenReturn(basketInfo);
 
         //when
-        basketInfoService.removeItemDetails(itemPrice, userId);
+        basketInfoService.updateBasketInfo(userId);
 
         //then
-        verify(basketInfoRepository, times(1)).save(basketInfo);
-    }
-
-    @Test
-    void removeItemDetails_BasketNotExists() {
-        //given
-        when(basketInfoRepository.findByUserId(userId)).thenReturn(null);
-
-        //when
-        basketInfoService.removeItemDetails(itemPrice, userId);
-
-        //then
-        verify(basketInfoRepository, never()).save(any());
-    }
-
-
-    @Test
-    void removeAllSameItemsDetails_BasketExists_UpdateBasketInfo() {
-        //given
-        int initialQuantity = 3;
-        BasketInfo basketInfo = new BasketInfo();
-        basketInfo.setQuantity(initialQuantity);
-        basketInfo.setSum(new BigDecimal("30"));
-
-        when(basketInfoRepository.findByUserId(userId)).thenReturn(basketInfo);
-
-        //when
-        int quantityToRemove = 2;
-        basketInfoService.removeAllSameItemsDetails(quantityToRemove, itemPrice, userId);
-
-        //then
-        verify(basketInfoRepository, times(1)).save(basketInfo);
-    }
-
-    @Test
-    void removeAllSameItemsDetails_BasketNotExists() {
-        //given
-        when(basketInfoRepository.findByUserId(userId)).thenReturn(null);
-
-        //when
-        basketInfoService.removeAllSameItemsDetails(2, itemPrice, userId);
-
-        //then
-        verify(basketInfoRepository, never()).save(any());
+        verify(basketInfoRepository, times(1)).delete(basketInfo);
     }
 
     @Test

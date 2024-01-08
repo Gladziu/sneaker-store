@@ -19,7 +19,7 @@ class AdminServiceImpl  implements AdminService{
 
     @Override
     public void deleteItem(Long itemId) {
-        basketItemService.deleteBasketItems(findItemById(itemId));
+        basketItemService.removeItemFromEachBasket(findItemById(itemId));
         itemRepository.deleteById(itemId);
     }
 
@@ -27,7 +27,7 @@ class AdminServiceImpl  implements AdminService{
     public void editItem(Item item) {
         Optional<Item> existingOptionalItem = itemRepository.findById(item.getId());
         if (existingOptionalItem.isPresent()) {
-            basketItemService.deleteBasketItems(item);
+            basketItemService.removeItemFromEachBasket(item);
             itemRepository.save(item);
         }
     }

@@ -24,13 +24,15 @@ class BasketServiceTest {
     @Mock
     private BasketItemService basketItemService;
     @Mock
+    private BasketInfoService basketInfoService;
+    @Mock
     private UserService userService;
     @Mock
     private Authentication authentication;
     @InjectMocks
     private BasketServiceImpl basketService;
     @Test
-    void itemOperation_withValidSizeAndIncreaseOperation_callsBasketItemServiceAddItem() {
+    void itemOperation_withValidSizeAndIncreaseOperation_AddItem() {
         //given
         Long itemId = 1L;
         int size = 42;
@@ -49,12 +51,13 @@ class BasketServiceTest {
 
         //then
         verify(basketItemService, times(1)).addItem(any(ItemWithSize.class), eq(currentUser.getId()));
-        verify(basketItemService, times(0)).removeItem(any(ItemWithSize.class), any(UUID.class));
-        verify(basketItemService, times(0)).removeAllTheSameItems(any(ItemWithSize.class), any(UUID.class));
+        verify(basketItemService, never()).removeItem(any(ItemWithSize.class), any(UUID.class));
+        verify(basketItemService, never()).removeAllIdenticalItems(any(ItemWithSize.class), any(UUID.class));
+        verify(basketInfoService, times(1)).updateBasketInfo(currentUser.getId());
     }
 
     @Test
-    void itemOperation_withValidSizeAndDecreaseOperation_callsBasketItemServiceRemoveItem() {
+    void itemOperation_withValidSizeAndDecreaseOperation_RemoveItem() {
         //given
         Long itemId = 1L;
         int size = 42;
@@ -72,13 +75,14 @@ class BasketServiceTest {
         basketService.itemOperation(itemId, size, basketOperation, authentication);
 
         //then
-        verify(basketItemService, times(0)).addItem(any(ItemWithSize.class), any(UUID.class));
+        verify(basketItemService, never()).addItem(any(ItemWithSize.class), any(UUID.class));
         verify(basketItemService, times(1)).removeItem(any(ItemWithSize.class), eq(currentUser.getId()));
-        verify(basketItemService, times(0)).removeAllTheSameItems(any(ItemWithSize.class), any(UUID.class));
+        verify(basketItemService, never()).removeAllIdenticalItems(any(ItemWithSize.class), any(UUID.class));
+        verify(basketInfoService, times(1)).updateBasketInfo(currentUser.getId());
     }
 
     @Test
-    void itemOperation_withValidSizeAndRemoveOperation_callsBasketItemServiceRemoveAllTheSameItems() {
+    void itemOperation_withValidSizeAndRemoveOperation_RemoveAllIdenticalItems() {
         //given
         Long itemId = 1L;
         int size = 42;
@@ -96,9 +100,10 @@ class BasketServiceTest {
         basketService.itemOperation(itemId, size, basketOperation, authentication);
 
         //then
-        verify(basketItemService, times(0)).addItem(any(ItemWithSize.class), any(UUID.class));
-        verify(basketItemService, times(0)).removeItem(any(ItemWithSize.class), any(UUID.class));
-        verify(basketItemService, times(1)).removeAllTheSameItems(any(ItemWithSize.class), eq(currentUser.getId()));
+        verify(basketItemService, never()).addItem(any(ItemWithSize.class), any(UUID.class));
+        verify(basketItemService, never()).removeItem(any(ItemWithSize.class), any(UUID.class));
+        verify(basketItemService, times(1)).removeAllIdenticalItems(any(ItemWithSize.class), eq(currentUser.getId()));
+        verify(basketInfoService, times(1)).updateBasketInfo(currentUser.getId());
     }
 
     @Test
@@ -112,9 +117,9 @@ class BasketServiceTest {
         basketService.itemOperation(itemId, invalidSize, basketOperation, authentication);
 
         //then
-        verify(basketItemService, times(0)).addItem(any(ItemWithSize.class), any(UUID.class));
-        verify(basketItemService, times(0)).removeItem(any(ItemWithSize.class), any(UUID.class));
-        verify(basketItemService, times(0)).removeAllTheSameItems(any(ItemWithSize.class), any(UUID.class));
-        verify(itemRepository, times(0)).findById(anyLong());
+        verify(basketItemService, never()).addItem(any(ItemWithSize.class), any(UUID.class));
+        verify(basketItemService, never()).removeItem(any(ItemWithSize.class), any(UUID.class));
+        verify(basketItemService, never()).removeAllIdenticalItems(any(ItemWithSize.class), any(UUID.class));
+        verify(itemRepository, never()).findById(anyLong());
     }
 }

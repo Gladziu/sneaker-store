@@ -10,11 +10,11 @@ import java.util.UUID;
 
 @Repository
 interface BasketRepository extends JpaRepository<BasketItem, UUID> {
-    BasketItem findByUserIdAndItemAndSize(UUID id, Item item, int size);
-
     List<BasketItem> findAllByItem(Item item);
 
     List<BasketItem> findAllByUserId(UUID id);
 
     void deleteAllByUserId(UUID id);
+
+    List<BasketItem> findAllByUserIdAndItemAndSize(UUID userId, Item item, int size);
 }
