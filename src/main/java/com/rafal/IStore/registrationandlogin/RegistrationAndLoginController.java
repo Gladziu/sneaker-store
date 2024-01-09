@@ -31,7 +31,7 @@ public class RegistrationAndLoginController {
 
     @GetMapping("/login")
     public String loginPage() {
-        return "/user/login";
+        return "user/login";
     }
 
 }

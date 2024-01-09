@@ -47,7 +47,7 @@ class RegistrationServiceTest {
         verify(registrationValidator, times(1)).emailDuplicationValidation(userReceiverDto, bindingResult);
         verify(registrationValidator, times(1)).passwordStrengthValidation(userReceiverDto, bindingResult);
         verify(model, times(1)).addAttribute(eq("user"), any(UserReceiverDto.class));
-        assertThat(result).isEqualTo("/user/register");
+        assertThat(result).isEqualTo("user/register");
     }
 
     @Test

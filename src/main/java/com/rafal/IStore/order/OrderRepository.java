@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 interface OrderRepository extends JpaRepository<OrderHistory, UUID> {
-    List<OrderHistory> findAllByEmail(String email);
+    List<OrderHistory> findAllByEmailOrderByCreatedDesc(String email);
 }

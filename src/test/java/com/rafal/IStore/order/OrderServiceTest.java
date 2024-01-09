@@ -5,7 +5,6 @@ import com.rafal.IStore.shoppingbasket.BasketInfoService;
 import com.rafal.IStore.shoppingbasket.BasketItemService;
 import com.rafal.IStore.user.UserDto;
 import com.rafal.IStore.user.UserService;
-import com.rafal.IStore.user.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -58,7 +57,7 @@ class OrderServiceTest {
         when(userService.getCurrentUser(authentication)).thenReturn(currentUser);
 
         List<OrderHistory> expectedOrderHistory = List.of(orderHistory, orderHistory2);
-        when(orderRepository.findAllByEmail(currentUser.getEmail())).thenReturn(expectedOrderHistory);
+        when(orderRepository.findAllByEmailOrderByCreatedDesc(currentUser.getEmail())).thenReturn(expectedOrderHistory);
 
         // When
         List<OrderHistory> result = orderService.historyOrders(authentication);

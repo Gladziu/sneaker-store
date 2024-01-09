@@ -31,7 +31,7 @@ class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderHistory> historyOrders(Authentication authentication) {
         UserDto currentUser = userService.getCurrentUser(authentication);
-        return orderRepository.findAllByEmail(currentUser.getEmail());
+        return orderRepository.findAllByEmailOrderByCreatedDesc(currentUser.getEmail());
     }
 
     @Override

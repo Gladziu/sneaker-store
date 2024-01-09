@@ -69,6 +69,6 @@ class RegistrationAndLoginControllerTest {
     void loginPage_ReturnsLoginView() throws Exception {
         mockMvc.perform(get("/login"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/user/login"));
+                .andExpect(view().name("user/login"));
     }
 }

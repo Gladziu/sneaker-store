@@ -23,7 +23,7 @@ class RegistrationService {
         registrationValidator.emailDuplicationValidation(userReceiverDto, bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute("user", userReceiverDto);
-            return "/user/register";
+            return "user/register";
         }
         userService.saveUserBasedOnRole(userReceiverDto);
         return "redirect:/login";
