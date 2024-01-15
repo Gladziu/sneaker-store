@@ -31,7 +31,7 @@ This project is a dynamic web application made in Spring Boot with a basic front
 ![Alt text](https://camo.githubusercontent.com/d38819e2d4efdc0a84acb94de6e2c94a02997234c5a72e72b1c250bb5a980e6f/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4d6f636b69746f2d3738413634313f7374796c653d666f722d7468652d6261646765)
 
 ## App deployed on Google Cloud
-**Click** <a href="https://valid-shine-410811.lm.r.appspot.com/sneaker-store/home" target="_blank">HERE</a>
+**Click** [here](https://valid-shine-410811.lm.r.appspot.com/sneaker-store/home)
 
 Already registered user:
     ```
