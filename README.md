@@ -1,5 +1,5 @@
 # Sneaker Store
-This project is a dynamic web application made in Spring Boot with a basic front-end. The design pattern I used is model-view-controller (MVC) and code structured is by function.
+This project is a dynamic web application made in Spring Boot with a basic front-end. The design pattern I used is model-view-controller (MVC) and code structured is by function. I tried to follow best practices in programming, such as SOLID, DRY.
 
 
 ## Functionalities of the application
