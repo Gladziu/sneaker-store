@@ -30,6 +30,9 @@ This project is a dynamic web application made in Spring Boot with a basic front
 ![Alt text](https://camo.githubusercontent.com/6cf47d9ca3b8d62efb942ad8e9c9335f5bd5196ec76150d42fcc1a65f8486ddf/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4a756e6974352d3235413136323f7374796c653d666f722d7468652d6261646765266c6f676f3d6a756e697435266c6f676f436f6c6f723d7768697465)
 ![Alt text](https://camo.githubusercontent.com/d38819e2d4efdc0a84acb94de6e2c94a02997234c5a72e72b1c250bb5a980e6f/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4d6f636b69746f2d3738413634313f7374796c653d666f722d7468652d6261646765)
 
+## Home page view
+![home_page.png](home_page.png)
+
 ## App deployed on Google Cloud
 **Click** [here](https://valid-shine-410811.lm.r.appspot.com/sneaker-store/home)
 
