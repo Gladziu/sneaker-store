@@ -34,7 +34,7 @@ This project is a dynamic web application made in Spring Boot with a basic front
 ![home_page.png](home_page.png)
 
 ## App deployed on Google Cloud
-**Click** [here](https://valid-shine-410811.lm.r.appspot.com/sneaker-store/home)
+**Click** [here](https://metal-calculus-417018.lm.r.appspot.com)
 
 Already registered user:
     ```
