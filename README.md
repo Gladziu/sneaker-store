@@ -1,6 +1,8 @@
 # Sneaker Store
 This project is a dynamic web application made in Spring Boot with a basic front-end. The design pattern I used is model-view-controller (MVC) and code structured is by function. I tried to follow best practices in programming, such as SOLID, DRY.
 
+## Demo on youtube!
+[![Watch the video](https://img.youtube.com/vi/rhmtXX-LMSM/maxresdefault.jpg)](https://www.youtube.com/watch?v=rhmtXX-LMSM&ab_channel=Rafal)
 
 ## Functionalities of the application
 - Registration
@@ -25,7 +27,7 @@ Tests: Junit, Mockito
 ![home_page.png](home_page.png)
 
 ## App deployed on Google Cloud
-**Click** [here](https://metal-calculus-417018.lm.r.appspot.com)
+~~**Click** [here](https://metal-calculus-417018.lm.r.appspot.com)~~ not supported anymore
 
 Already registered user:
     ```
